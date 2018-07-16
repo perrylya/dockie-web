@@ -50,10 +50,7 @@
     "draft-js": "^0.10.5",
     "electron-compile": "6.4.3",
     "electron-squirrel-startup": "^1.0.0",
-<<<<<<< HEAD
-=======
     "eslint-config-airbnb": "^17.0.0",
->>>>>>> a634dbd046e7c92a1b01ce960be3051149305098
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
