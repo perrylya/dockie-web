@@ -9,7 +9,7 @@ class LoginScreen extends Component {
       password: ''
     }
   }
-}
+
 
 onNameChange = (event) =>{
   this.setState({
@@ -24,14 +24,14 @@ onPassChange = (event) =>{
 }
 
 
-render(){
-  return(
-    <div>
-      <input onChange = {this.onNameChange} className = "field" placeholder = "Username"/>
-      <input onChange = {this.onPassChange} className = "field" placeholder = "Password"/>
-      <Button variant = "contained" color="primary">Login</Button>
-    </div>
-
-  )
+  render(){
+    return (
+      <div>
+        <input onChange = {this.onNameChange} className = "field" placeholder = "Username"/>
+        <input onChange = {this.onPassChange} className = "field" placeholder = "Password"/>
+        <Button variant = "contained" color="primary">Login</Button>
+      </div>
+    );
+  }
 }
-
+export default LoginScreen;
