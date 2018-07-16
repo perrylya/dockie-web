@@ -1,4 +1,5 @@
 import React from 'react';
+import Draft from './Draft'
 
 export default class Page2 extends React.Component {
   constructor(props) {
@@ -8,9 +9,8 @@ export default class Page2 extends React.Component {
   render() {
     return(
       <div>
-        <h2 className='page2'>
-          This is page #2
-        </h2>
+        <h2 className='CreateDoc'>Editing Document</h2>
+          <Draft />
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
       </div>
     )
