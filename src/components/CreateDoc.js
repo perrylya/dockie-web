@@ -1,5 +1,5 @@
 import React from 'react';
-import Draft from './Draft'
+import SimpleCounterEditor from './Draft'
 
 export default class Page2 extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ export default class Page2 extends React.Component {
     return(
       <div>
         <h2 className='CreateDoc'>Editing Document</h2>
-          <Draft />
+          <SimpleCounterEditor />
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
       </div>
     )
