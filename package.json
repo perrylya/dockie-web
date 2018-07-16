@@ -57,6 +57,13 @@
     "draft-js": "^0.10.5",
     "electron-compile": "6.4.3",
     "electron-squirrel-startup": "^1.0.0",
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> fkigawa
+=======
+>>>>>>> asiopongco
+>>>>>>> c285c18d52a63a2efde3ab30df4067426cd82217
     "eslint-config-airbnb": "^17.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
