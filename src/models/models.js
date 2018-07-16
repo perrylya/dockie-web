@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 var UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -21,5 +22,6 @@ var UserSchema = new mongoose.Schema({
     required: true,
   }
 });
+
 var User = mongoose.model('User', UserSchema);
 module.exports = User;
