@@ -6,7 +6,6 @@ import {EditorState} from 'draft-js';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 
 
-
 const counterPlugin = createCounterPlugin();
 const { CharCounter, WordCounter, LineCounter, CustomCounter } = counterPlugin;
 
