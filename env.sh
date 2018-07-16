@@ -1,0 +1,1 @@
+MONGO_URI="dockie:textedit1@ds041566.mlab.com:41566/dockie-web"
