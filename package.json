@@ -47,7 +47,10 @@
     }
   },
   "dependencies": {
-    "electron-compile": "^6.4.3",
+    "electron-compile": "6.4.3",
     "electron-squirrel-startup": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron-prebuilt-compile": "2.0.4"
   }
 }
