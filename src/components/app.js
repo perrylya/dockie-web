@@ -1,8 +1,9 @@
 import React from 'react';
 import Documents from './Documents.js';
 import CreateDoc from './CreateDoc.js';
+import LoginScreen from './Login';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
@@ -21,6 +22,7 @@ export default class App extends React.Component {
     return(
       <div>
         <h2>
+          <LoginScreen />
         {this.state.currentPage === 'Home' ? <div><h1>Sign In</h1><button onClick={() => this.redirect('Documents')}>Login</button></div> : null}
         {this.state.currentPage === 'Documents' ? <Documents redirect={this.redirect}/> : null}
         {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={this.redirect}/> : null}
@@ -29,3 +31,5 @@ export default class App extends React.Component {
     )
   }
 }
+
+export default App;
