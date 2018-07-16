@@ -2,21 +2,21 @@
 import React from 'react';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import createCounterPlugin from 'draft-js-counter-plugin';
-import {EditorState} from 'draft-js'
+import {EditorState} from 'draft-js';
+import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
+
+
 
 const counterPlugin = createCounterPlugin();
 const { CharCounter, WordCounter, LineCounter, CustomCounter } = counterPlugin;
-const plugins = [counterPlugin];
-const text = `This editor has counters below!
-Try typing here and watch the numbers go up. 🙌
 
-Note that the color changes when you pass one of the following limits:
-- 200 characters
-- 30 words
-- 10 lines
-`;
 
-export default class SimpleCounterEditor extends React.Component {
+const staticToolbarPlugin = createToolbarPlugin();
+const { Toolbar } = staticToolbarPlugin;
+const plugins = [staticToolbarPlugin, counterPlugin];
+const text = 'The toolbar above the editor can be used for formatting text, as in conventional static editors  …';
+
+export default class TextEditor extends React.Component {
       constructor(props){
       super(props)
       this.state = {
@@ -48,6 +48,7 @@ export default class SimpleCounterEditor extends React.Component {
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
           />
+          <Toolbar /> 
         </div>
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>
