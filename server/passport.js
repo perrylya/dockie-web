@@ -1,7 +1,10 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local'.Strategy;
 
-import models from './models/models'
+import auth from './auth';
+import routes from './index';
+
+import models from '../models/models'
 let User = models.User;
 
 let app = express();
