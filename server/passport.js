@@ -1,15 +1,10 @@
 import passport from 'passport';
-import LocalStrategy from 'passport-local'.Strategy;
-
-import auth from './auth';
-import routes from './index';
-
-import models from '../models/models'
+import LocalStrategy from 'passport-local';
+const Strategy = LocalStrategy.Strategy;
+import models from '../src/models/models'
 let User = models.User;
 
-let app = express();
-
-passport.use(new LocalStrategy(function(username, password, done) {
+passport.use(new Strategy(function(username, password, done) {
   User.findOne({ username: username }, function (err, user) {
     // if there's an error, finish trying to authenticate (auth failed)
     if (err) {
@@ -35,45 +30,11 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
+  console.log(arguments)
   User.findById(id, function(err, user) {
-    done(err, user);
+    console.log(done)
+    // done(err, user);
   });
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use('/', auth(passport));
-app.use('/', routes);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
-
-
-module.exports = app;
+export default passport;

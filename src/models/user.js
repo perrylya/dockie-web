@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 
+// var DocumentSchema = new mongoose.Schema({
+//
+// })
+
 var UserSchema = new mongoose.Schema({
   email: {
     type: String,
