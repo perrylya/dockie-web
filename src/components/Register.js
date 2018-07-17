@@ -7,11 +7,11 @@ class RegisterScreen extends Component {
     this.state = {
       name: '',
       password: '',
-      passwordRepeat: '',
       email:'',
       isRegistered: false
     }
   }
+
 
 onNameChange = (event) =>{
   this.setState({
@@ -31,48 +31,35 @@ onPassChange = (event) =>{
   })
 }
 
-onConfirmChange = (event) =>{
-  this.setState({
-    passwordRepeat: event.target.value
-  })
-}
-
-onRegister = () => {
-  fetch('http://localhost:8888/signup', {
+onRegister() {
+  fetch('/signup', {
     method: 'POST',
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username: this.state.name,
       email: this.state.email,
-      password: this.state.password,
-      passwordRepeat: this.state.passwordRepeat
+      password: this.state.password
     })
-  })
-  .then((response) => response.text())
-  .then((text) => {
-    this.setState({isRegistered: text})
-  })
-  .catch((error) => {
-    alert(error)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({isRegistered: responseJson})
+    })
+    .catch((error) => {
+      alert(error)
+    })
   })
 }
 
   render(){
     return (
       <div>
-        {this.state.isRegistered ?
-        <div></div>
-        :
-        <div>
           <input onChange = {this.onEmailChange} className = "field" placeholder = "Email Address"/>
           <input onChange = {this.onNameChange} className = "field" placeholder = "Username"/>
           <input onChange = {this.onPassChange} className = "field" placeholder = "Password"/>
-          <input onChange = {this.onConfirmChange} className = "field" placeholder = " Confirm Password"/>
           <button onClick = {this.onRegister}>Register</button>
-        </div>
-      }
       </div>
 
     );
