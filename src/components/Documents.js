@@ -47,7 +47,7 @@ export default class Documents extends React.Component {
         </h2>
         <button onClick={() => this.props.redirect('CreateDoc')}>Create New Document</button>
 
-        <button onClick={this.openModal}>Add Existing Doc</button>
+        <button onClick={this.openModal}>Edit Existing Doc</button>
         <Modal
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.afterOpenModal}
