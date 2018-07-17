@@ -32,25 +32,25 @@ onPassChange = (event) =>{
 }
 
 onRegister = () => {
-  fetch('/signup'), {
+  fetch('https://localhost:8888/signup', {
     method: 'POST',
+    dataType: 'JSON',
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
+    body: {
       username: this.state.name,
       email: this.state.email,
       password: this.state.password
-    })
-    // .then((response) => response.json())
-    // .then((responseJson) => {
-    //   this.setState({isRegistered: responseJson})
-    // })
-    // .catch((error) => {
-    //   alert(error)
-    // })
-  }
+    }
+  })
+  .then((response) => response.text())
+  .then((text) => {
+    this.setState({isRegistered: text})
+  })
+  .catch((error) => {
+    alert(error)
+  })
 }
 
   render(){
