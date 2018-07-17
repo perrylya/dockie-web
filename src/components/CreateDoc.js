@@ -2,7 +2,7 @@
 import React from 'react';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import createCounterPlugin from 'draft-js-counter-plugin';
-import {EditorState} from 'draft-js';
+import {EditorState, convertToRaw, convertFromRaw} from 'draft-js';
 import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
 import {
   ItalicButton,
@@ -56,8 +56,6 @@ class HeadlinesPicker extends React.Component {
   }
 }
 
-
-
 const toolbarPlugin = createToolbarPlugin({
   structure: [
     BoldButton,
@@ -75,19 +73,30 @@ const { Toolbar } = toolbarPlugin;
 const plugins = [toolbarPlugin, counterPlugin, undoPlugin];
 
 
-
 export default class CreateDoc extends React.Component {
       constructor(props){
       super(props)
-      this.state = {
-        editorState: EditorState.createEmpty(),
-      };
- }
+      this.state = {};
+      const content = window.localStorage.getItem('content')
+      if (content) {
+        this.state.editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
+      } else {
+        this.state.editorState = EditorState.createEmpty();
+      }
+      }
  
 
   onChange(editorState){
+    const contentState = editorState.getCurrentContent()
+    this.saveContent(contentState)
     this.setState({ editorState });
+    console.log(convertToRaw)
   };
+
+  saveContent =(content) => {
+    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)))
+  }
+
 
   focus(){
     this.editor.focus();
@@ -114,7 +123,7 @@ export default class CreateDoc extends React.Component {
           <RedoButton /> 
         </div>
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
-        <button onClick={() => saveChanges().bind(this)}>Save Changes</button>
+        <button onClick={() => saveChanges()}>Save Changes</button>
        
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>

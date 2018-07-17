@@ -2,6 +2,12 @@ import React from 'react';
 import {Editor, EditorState} from 'draft-js';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+Modal.setAppElement(document.getElementById('App'))
+
+var data = [
+  {documentId: '1'},
+  {documentId: '2'}
+]
 
 const customStyles = {
   content : {
@@ -18,7 +24,9 @@ export default class Documents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      existingDocs: data,
+      docId: ''
     };
 
     this.openModal = this.openModal.bind(this);
@@ -27,12 +35,32 @@ export default class Documents extends React.Component {
   }
 
   openModal() {
+    console.log(this.state.existingDocs)
     this.setState({modalIsOpen: true});
   }
 
   afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#f00';
+      // references are now sync'd and can be accessed.
+      this.subtitle.style.color = '#f00';
+  }
+
+  addName(event) {
+    this.setState({
+      docId: event.target.value
+    })
+  }
+
+  addModal = () => {
+    var newDocs = this.state.existingDocs.slice()
+    var newObj = {};
+
+    newObj.documentId = this.state.docId
+    newDocs.push(newObj)
+
+    this.setState({
+      modalIsOpen: false,
+      existingDocs: newDocs
+    })
   }
 
   closeModal() {
@@ -47,20 +75,21 @@ export default class Documents extends React.Component {
         </h2>
         <button onClick={() => this.props.redirect('CreateDoc')}>Create New Document</button>
 
-        <button onClick={this.openModal}>Edit Existing Doc</button>
-        <Modal
-            isOpen={this.state.modalIsOpen}
-            onAfterOpen={this.afterOpenModal}
-            onRequestClose={this.closeModal}
-            style={customStyles}>
 
-            <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
-            <form>
-              <input />
-              <button onClick={this.afterOpenModal}>add</button>
-              <button onClick={this.closeModal}>close</button>
-            </form>
+        <button onClick={this.openModal}>Edit Existing Doc</button>
+        <Modal isOpen={this.state.modalIsOpen} style={customStyles}>
+          <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
+          <form>
+            <div>
+              Document ID: <input onChange={(event) => this.addName(event)} value={this.state.docId} type="text"></input>
+            </div>
+          </form>
+          <button onClick={this.addModal}>Update</button>
+          <button onClick={this.closeModal}>Cancel</button>
         </Modal>
+        <div>
+          {this.state.existingDocs.map(id => <div>{id.documentId}</div>)}
+        </div>
       </div>
     )
   }
