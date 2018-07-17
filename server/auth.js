@@ -39,13 +39,13 @@ module.exports = function(passport) {
     });
   });
 
-  router.get('/login', function(req, res) {
-    res.render('login');
-  });
-
-  router.post('/login', passport.authenticate('local', {
-    successRedirect: '/contacts',
-    failureRedirect: '/login'
+  //login
+  router.post('/login', passport.authenticate('local') = (err, req, res) => {
+    if(err) {
+      res.send(err)
+    }
+    res.send(true)
+  }
   }));
 
   router.get('/logout', function(req, res) {

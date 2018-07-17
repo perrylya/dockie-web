@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
+import Documents from './Documents'
 
 class LoginScreen extends Component {
   constructor(props){
     super(props);
     this.state = {
       name: '',
-      password: ''
+      password: '',
+      loggedIn: false
     }
   }
 
@@ -22,14 +24,41 @@ onPassChange = (event) =>{
   })
 }
 
+onLogin() {
+  fetch('/login'), {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: this.state.name,
+      password: this.state.password
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({loggedIn: responseJson})
+    })
+    .catch((error) => {
+      alert(error)
+    })
+  }
+}
 
   render(){
     return (
       <div>
-        <input onChange = {this.onNameChange} className = "field" placeholder = "Username"/>
-        <input onChange = {this.onPassChange} className = "field" placeholder = "Password"/>
-        <button>Login</button>
+        {this.state.loggedIn ?
+          <Documents />
+        :
+        <div>
+          <input onChange = {this.onNameChange} className = "field" placeholder = "Username"/>
+          <input onChange = {this.onPassChange} className = "field" placeholder = "Password"/>
+          <button onClick = {this.onLogin}>Login</button>
+        </div>
+        }
       </div>
+
     );
   }
 }
