@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.18.3",
     "draft-js": "^0.10.5",
     "draft-js-counter-plugin": "^2.0.1",
     "draft-js-emoji-plugin": "^2.0.6",
@@ -72,6 +73,7 @@
     "mongoose": "^5.2.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "path": "^0.12.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-modal": "^3.5.1",

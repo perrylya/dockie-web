@@ -1,12 +1,29 @@
 import express from 'express';
-let router = express.Router();
 import models from '../models/models';
+import bodyParser from 'body-parser';
+import path from 'path';
+let app = express();
+import mongoose from 'mongoose';
 let User = models.User;
 
+mongoose.connection.on('connected', () =>{
+  console.log('Successfully connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) =>{
+  console.log('log:' + err);
+  process.exit(1);
+});
+
+mongoose.connect(process.env.MONGODB_URI);
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.use(bodyParser.json());
+
 module.exports = function(passport) {
-  router.get('/signup', function(req, res) {
-    res.render('signup');
-  });
+  // router.get('/signup', function(req, res) {
+  //   res.render('signup');
+  // });
 
   var validateReq = function(userData) {
     return (userData.username && userData.password && userData.passwordRepeat);
@@ -16,36 +33,34 @@ module.exports = function(passport) {
     return (userData.password === userData.passwordRepeat)
   }
 
-  router.post('/signup', function(req, res) {
+  ao.post('/signup', function(err, req, res) {
+    console.log('hi')
     if (!validateReq(req.body)) {
-      return res.render('signup', {
-        error: "Please complete all the fields."
-      });
+      res.send(err)
     } else if(!validatePassword(req.body)) {
-      return res.render('signup', {
-        error: "Passwords must match."
-      });
+      res.send(err)
     }
     var newUser = new User({
+      email: req.body.email,
       username: req.body.username,
       password: req.body.password
     });
     newUser.save(function(err, user) {
       if (err) {
-        res.status(500).redirect('/register');
+        res.send(err);
         return;
       }
-      res.redirect('/login');
+      res.send(true)
     });
   });
 
-  router.get('/login', function(req, res) {
-    res.render('login');
-  });
-
-  router.post('/login', passport.authenticate('local', {
-    successRedirect: '/contacts',
-    failureRedirect: '/login'
+  //login
+  router.post('/login', passport.authenticate('local') = (err, req, res) => {
+    if(err) {
+      res.send(err)
+    }
+    res.send(true)
+  }
   }));
 
   router.get('/logout', function(req, res) {
