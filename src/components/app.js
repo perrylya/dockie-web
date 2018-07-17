@@ -10,7 +10,7 @@ class App extends React.Component {
     this.state = ({
       currentPage: 'Home',
       // docId: null
-      // creatorId: null 
+      // creatorId: null
     })
     this.redirect= this.redirect.bind(this)
   }
@@ -30,19 +30,12 @@ class App extends React.Component {
   render() {
     return(
       <div>
-<<<<<<< HEAD
         <h1>Welcome to Dockie</h1>
         {this.state.currentPage === 'Home' ?
         <div><button onClick={() => this.redirect('Login')}>Login</button><br/><button onClick={() => this.redirect('Register')}>Register</button></div> : null}
         {this.state.currentPage === 'Login' ? <div><LoginScreen /><br/><button onClick={() => this.redirect('Register')}>Register</button></div> : null}
         {this.state.currentPage === 'Register' ? <div><RegisterScreen /><button onClick={() => this.redirect('Login')}>Login</button></div> : null}
         {this.state.currentPage === 'Documents' ? <Documents redirect={this.redirect}/> : null}
-=======
-        <h2>
-          <RegisterScreen />
-        {this.state.currentPage === 'Home' ? <div><h1>WELCOME TO: DOCKIE</h1><button onClick={() => this.redirect('Documents')}>Login</button></div> : null}
-        {this.state.currentPage === 'Documents' ? <Documents editPage={this.editPage} redirect={this.redirect}/> : null}
->>>>>>> sisi
         {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={this.redirect}/> : null}
       </div>
     )

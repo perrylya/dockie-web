@@ -9,7 +9,7 @@ import LocalStrategy from 'passport-local'
 const Strategy = LocalStrategy.Strategy;
 import passport from './passport'
 var MongoStore = require('connect-mongo')(session);
-import models from '../src/models/models'
+import models from '../src/models/user'
 let User = models;
 
 mongoose.connection.on('connected', () =>{

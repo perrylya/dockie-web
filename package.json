@@ -68,11 +68,8 @@
     "electron-compile": "6.4.3",
     "electron-squirrel-startup": "^1.0.0",
     "eslint-config-airbnb": "^17.0.0",
-<<<<<<< HEAD
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-=======
->>>>>>> sisi
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "material-ui": "^0.20.1",

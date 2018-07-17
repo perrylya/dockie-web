@@ -1,5 +1,5 @@
 import express from 'express';
-import models from '../src/models/models';
+import models from '../src/models/user';
 import path from 'path';
 import mongoose from 'mongoose';
 let User = models;

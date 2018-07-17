@@ -1,7 +1,7 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 const Strategy = LocalStrategy.Strategy;
-import models from '../src/models/models'
+import models from '../src/models/user'
 let User = models;
 
 passport.serializeUser(function(user, done) {
