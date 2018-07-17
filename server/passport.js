@@ -2,10 +2,22 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 const Strategy = LocalStrategy.Strategy;
 import models from '../src/models/models'
-let User = models.User;
+let User = models;
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 passport.use(new Strategy(function(username, password, done) {
+  console.log('username', username)
   User.findOne({ username: username }, function (err, user) {
+    console.log(password, user.password)
     // if there's an error, finish trying to authenticate (auth failed)
     if (err) {
       console.log(err);
@@ -24,17 +36,5 @@ passport.use(new Strategy(function(username, password, done) {
     return done(null, user);
   });
 }));
-
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
-
-passport.deserializeUser(function(id, done) {
-  console.log(arguments)
-  User.findById(id, function(err, user) {
-    console.log(done)
-    // done(err, user);
-  });
-});
 
 export default passport;

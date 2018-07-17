@@ -6,8 +6,11 @@ import session from 'express-session';
 import routes from './auth.js';
 import mongoose from 'mongoose';
 import LocalStrategy from 'passport-local'
+const Strategy = LocalStrategy.Strategy;
 import passport from './passport'
 var MongoStore = require('connect-mongo')(session);
+import models from '../src/models/models'
+let User = models;
 
 mongoose.connection.on('connected', () =>{
   console.log('Successfully connected to MongoDB');
@@ -32,6 +35,10 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.get('/users', (req, res) => {
+  User.find().then(users => res.send(users))
+})
 
 app.use('/', routes(passport));
 
