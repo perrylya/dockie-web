@@ -1,8 +1,21 @@
-import http from 'http';
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+let app = express();
+import mongoose from 'mongoose';
 
-http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
+mongoose.connection.on('connected', () =>{
+  console.log('Successfully connected to MongoDB');
+});
 
-console.log('Server running at http://127.0.0.1:1337/');
+mongoose.connection.on('error', (err) =>{
+  console.log('log:' + err);
+  process.exit(1);
+});
+
+mongoose.connect(process.env.MONGODB_URI);
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.use(bodyParser.json());
+
+app.listen(8888);

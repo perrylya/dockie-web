@@ -1,8 +1,24 @@
 import express from 'express';
-let router = express.Router();
 import models from '../models/models';
+import bodyParser from 'body-parser';
+import path from 'path';
+let app = express();
+import mongoose from 'mongoose';
 let User = models.User;
-import body-parser from 'body-parser';
+
+mongoose.connection.on('connected', () =>{
+  console.log('Successfully connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) =>{
+  console.log('log:' + err);
+  process.exit(1);
+});
+
+mongoose.connect(process.env.MONGODB_URI);
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.use(bodyParser.json());
 
 module.exports = function(passport) {
   // router.get('/signup', function(req, res) {
@@ -17,7 +33,7 @@ module.exports = function(passport) {
     return (userData.password === userData.passwordRepeat)
   }
 
-  router.post('/signup', function(err, req, res) {
+  ao.post('/signup', function(err, req, res) {
     console.log('hi')
     if (!validateReq(req.body)) {
       res.send(err)

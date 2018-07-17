@@ -2,7 +2,6 @@ import React from 'react';
 import Documents from './Documents.js';
 import CreateDoc from './CreateDoc.js';
 import LoginScreen from './Login';
-import DocumentsStyle from './DocumentsStyle'
 import RegisterScreen from './Register'
 
 class App extends React.Component {
