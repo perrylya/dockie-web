@@ -49,7 +49,7 @@ module.exports = function(passport) {
 
   router.get('/getuser', (req, res) => {
     if(!req.user) {
-      throw err
+      throw error
     } else {
       res.send(req.user)
     }
