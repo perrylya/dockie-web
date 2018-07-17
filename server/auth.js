@@ -33,7 +33,7 @@ module.exports = function(passport) {
     return (userData.password === userData.passwordRepeat)
   }
 
-  ao.post('/signup', function(err, req, res) {
+  router.post('/signup', function(err, req, res) {
     console.log('hi')
     if (!validateReq(req.body)) {
       res.send(err)

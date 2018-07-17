@@ -74,7 +74,6 @@ export default class Documents extends React.Component {
           Create/Edit Documents
         </h2>
         <button onClick={() => this.props.redirect('CreateDoc')}>Create New Document</button>
-        <button onClick={this.openModal}>Add Existing Doc</button>
 
         <Modal isOpen={this.state.modalIsOpen} style={customStyles}>
           <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
