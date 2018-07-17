@@ -2,9 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 let app = express();
-import routes = from './auth.js';
+import session from 'express-session';
+import routes from './auth.js';
 import mongoose from 'mongoose';
 import LocalStrategy from 'passport-local'
+import passport from './passport'
 var MongoStore = require('connect-mongo')(session);
 
 mongoose.connection.on('connected', () =>{
@@ -19,6 +21,7 @@ mongoose.connection.on('error', (err) =>{
 mongoose.connect(process.env.MONGODB_URI);
 
 app.use(express.static(path.join(__dirname, 'build')));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //Passport Implementation
@@ -27,7 +30,10 @@ app.use(session({
   store: new MongoStore({mongooseConnection: require('mongoose').connection})
 }));
 
-app.use('/', routes);
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/', routes(passport));
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
