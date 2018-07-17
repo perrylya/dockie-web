@@ -78,18 +78,27 @@ export default class CreateDoc extends React.Component {
       constructor(props){
       super(props)
       this.state = {
-        document: null,
+        document: null, 
         // creatorId: this.props.user._id ,
 
-      };
-      const content = window.localStorage.getItem('content')
-      if (content) {
-        this.state.editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
-      } else {
-        this.state.editorState = EditorState.createEmpty();
-      }
+        };
       }
  
+     componentDidMount() {
+    // fetch Document by ID to database and then set the state of current doc 
+    // fetch request to server 
+    // this.setState({
+
+    // })
+      fetch('/content').then(val => val.json())
+      .then(rawContent => {
+        if (rawContent) {
+          this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(rawContent))) })
+        } else {
+          this.setState({ editorState: EditorState.createEmpty() });
+        }
+      });
+    }
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
