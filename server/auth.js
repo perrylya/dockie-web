@@ -2,11 +2,12 @@ import express from 'express';
 let router = express.Router();
 import models from '../models/models';
 let User = models.User;
+import body-parser from 'body-parser';
 
 module.exports = function(passport) {
-  router.get('/signup', function(req, res) {
-    res.render('signup');
-  });
+  // router.get('/signup', function(req, res) {
+  //   res.render('signup');
+  // });
 
   var validateReq = function(userData) {
     return (userData.username && userData.password && userData.passwordRepeat);
@@ -16,26 +17,24 @@ module.exports = function(passport) {
     return (userData.password === userData.passwordRepeat)
   }
 
-  router.post('/signup', function(req, res) {
+  router.post('/signup', function(err, req, res) {
+    console.log('hi')
     if (!validateReq(req.body)) {
-      return res.render('signup', {
-        error: "Please complete all the fields."
-      });
+      res.send(err)
     } else if(!validatePassword(req.body)) {
-      return res.render('signup', {
-        error: "Passwords must match."
-      });
+      res.send(err)
     }
     var newUser = new User({
+      email: req.body.email,
       username: req.body.username,
       password: req.body.password
     });
     newUser.save(function(err, user) {
       if (err) {
-        res.status(500).redirect('/register');
+        res.send(err);
         return;
       }
-      res.redirect('/login');
+      res.send(true)
     });
   });
 

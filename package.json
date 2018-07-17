@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.18.3",
     "draft-js": "^0.10.5",
     "draft-js-counter-plugin": "^2.0.1",
     "draft-js-emoji-plugin": "^2.0.6",

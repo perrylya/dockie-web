@@ -31,7 +31,7 @@ onPassChange = (event) =>{
   })
 }
 
-onRegister() {
+onRegister = () => {
   fetch('/signup'), {
     method: 'POST',
     headers: {
@@ -43,13 +43,13 @@ onRegister() {
       email: this.state.email,
       password: this.state.password
     })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({isRegistered: responseJson})
-    })
-    .catch((error) => {
-      alert(error)
-    }
+    // .then((response) => response.json())
+    // .then((responseJson) => {
+    //   this.setState({isRegistered: responseJson})
+    // })
+    // .catch((error) => {
+    //   alert(error)
+    // })
   }
 }
 
