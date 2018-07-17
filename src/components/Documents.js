@@ -2,16 +2,12 @@ import React from 'react';
 import {Editor, EditorState} from 'draft-js';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-<<<<<<< HEAD
-import ActionSettingsInputComponent from 'material-ui/SvgIcon';
-=======
 Modal.setAppElement(document.getElementById('App'))
 
 var data = [
   {documentId: '1'},
   {documentId: '2'}
 ]
->>>>>>> 1e0c49a4f5b6669b863c2a5c36570cdd7dc91398
 
 const customStyles = {
   content : {
@@ -125,20 +121,6 @@ export default class Documents extends React.Component {
         </Modal>
 
         <button onClick={this.openModal}>Edit Existing Doc</button>
-<<<<<<< HEAD
-        <Modal
-            isOpen={this.state.modalIsOpen}
-            onAfterOpen={this.afterOpenModal}
-            onRequestClose={this.closeModal}
-            style={customStyles}>
-
-            <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
-            <form>
-              <input/>
-              <button onClick={this.afterOpenModal}>add</button>
-              <button onClick={this.closeModal}>close</button>
-            </form>
-=======
         <Modal isOpen={this.state.modalIsOpen} style={customStyles}>
           <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
           <form>
@@ -148,7 +130,6 @@ export default class Documents extends React.Component {
           </form>
           <button onClick={this.addModal}>Update</button>
           <button onClick={this.closeModal}>Cancel</button>
->>>>>>> 1e0c49a4f5b6669b863c2a5c36570cdd7dc91398
         </Modal>
         <div>
           {this.state.existingDocs.map(id => <div>{id.documentId}</div>)}

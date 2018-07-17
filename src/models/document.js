@@ -11,7 +11,16 @@ var DocumentSchema = new mongoose.Schema({
     type: String,
   },
   content: { 
+    type: {},
+  },
+  password: {
     type: String,
+    unique: true,
+    required: true,
+  },
+  title: {
+      type: String,
+      required: false,
   }
 });
 
