@@ -24,7 +24,7 @@ class App extends React.Component {
       <div>
         <h2>
         {this.state.currentPage === 'Home' ? <div><h1>WELCOME TO: DOCKIE</h1><button onClick={() => this.redirect('Documents')}>Login</button></div> : null}
-        {this.state.currentPage === 'Documents' ? <DocumentsStyle redirect={this.redirect}/> : null}
+        {this.state.currentPage === 'Documents' ? <Documents redirect={this.redirect}/> : null}
         {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={this.redirect}/> : null}
         </h2>
       </div>
