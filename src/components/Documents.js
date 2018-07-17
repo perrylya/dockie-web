@@ -25,17 +25,25 @@ export default class Documents extends React.Component {
     super(props);
     this.state = {
       modalIsOpen: false,
+      modal2IsOpen: false,
       existingDocs: data,
-      docId: ''
+      docId: '',
+      currentPage: 'Home'
     };
+
+    this.openNewDocModal = this.openNewDocModal.bind(this);
+    this.closeNewDocModal = this.closeNewDocModal.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
 
+  openNewDocModal() {
+    this.setState({modal2IsOpen: true});
+  }
+
   openModal() {
-    console.log(this.state.existingDocs)
     this.setState({modalIsOpen: true});
   }
 
@@ -44,10 +52,31 @@ export default class Documents extends React.Component {
       this.subtitle.style.color = '#f00';
   }
 
+  addNewDocName(event) {
+    this.setState({
+      docId: event.target.value
+    })
+  }
+
   addName(event) {
     this.setState({
       docId: event.target.value
     })
+  }
+
+  addNewDocModal = () => {
+    var newDocs = this.state.existingDocs.slice()
+    var newObj = {};
+
+    newObj.documentId = this.state.docId
+    newDocs.push(newObj)
+
+    this.setState({
+      modalIsOpen: false,
+      existingDocs: newDocs,
+      currentPage: 'CreateDoc'
+    })
+    this.props.redirect('CreateDoc')
   }
 
   addModal = () => {
@@ -63,6 +92,10 @@ export default class Documents extends React.Component {
     })
   }
 
+  closeNewDocModal() {
+    this.setState({modal2IsOpen: false});
+  }
+
   closeModal() {
     this.setState({modalIsOpen: false});
   }
@@ -73,8 +106,19 @@ export default class Documents extends React.Component {
         <h2 className='Documents'>
           Create/Edit Documents
         </h2>
-        <button onClick={() => this.props.redirect('CreateDoc')}>Create New Document</button>
 
+        <button onClick={this.openNewDocModal}>Create New Doc</button>
+        <Modal isOpen={this.state.modal2IsOpen} style={customStyles}>
+          <h2 ref={subtitle => this.subtitle = subtitle}>New Doc</h2>
+          <form>
+            <div>
+              Title: <input onChange={(event) => this.addName(event)} value={this.state.docId} type="text"></input><br/>
+              Password: <input />
+            </div>
+          </form>
+          <button onClick={this.addNewDocModal}>Create New</button>
+          <button onClick={this.closeNewDocModal}>Cancel</button>
+        </Modal>
 
         <button onClick={this.openModal}>Edit Existing Doc</button>
         <Modal isOpen={this.state.modalIsOpen} style={customStyles}>
