@@ -1,5 +1,6 @@
 
 import React from 'react';
+import User from '../models/user'
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import createCounterPlugin from 'draft-js-counter-plugin';
 import {EditorState, convertToRaw, convertFromRaw} from 'draft-js';
@@ -76,7 +77,11 @@ const plugins = [toolbarPlugin, counterPlugin, undoPlugin];
 export default class CreateDoc extends React.Component {
       constructor(props){
       super(props)
-      this.state = {};
+      this.state = {
+        document: null,
+        // creatorId: this.props.user._id ,
+
+      };
       const content = window.localStorage.getItem('content')
       if (content) {
         this.state.editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
@@ -91,6 +96,8 @@ export default class CreateDoc extends React.Component {
     this.saveContent(contentState)
     this.setState({ editorState });
     console.log(convertToRaw)
+    
+    // socket.emit("updateDoc", {content:this.state.content, password: this.state.password })
   };
 
   saveContent =(content) => {
@@ -123,7 +130,6 @@ export default class CreateDoc extends React.Component {
           <RedoButton /> 
         </div>
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
-        <button onClick={() => saveChanges()}>Save Changes</button>
        
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>
