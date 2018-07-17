@@ -17,6 +17,13 @@ import {
   BlockquoteButton,
   CodeBlockButton,
 } from 'draft-js-buttons';
+import createUndoPlugin from 'draft-js-undo-plugin';
+
+// Creates an Instance. At this step, a configuration object can be passed in
+// as an argument.
+const undoPlugin = createUndoPlugin();
+const { UndoButton, RedoButton } = undoPlugin;
+
 
 const counterPlugin = createCounterPlugin();
 const { CharCounter, WordCounter, LineCounter, CustomCounter } = counterPlugin;
@@ -49,24 +56,7 @@ class HeadlinesPicker extends React.Component {
   }
 }
 
-class HeadlinesButton extends React.Component {
-  onClick(){
-    // A button can call `onOverrideContent` to replace the content
-    // of the toolbar. This can be useful for displaying sub
-    // menus or requesting additional information from the user.
-    this.props.onOverrideContent(HeadlinesPicker);
-  }
 
-  render() {
-    return (
-      <div className={editorStyles.headlineButtonWrapper}>
-        <button onClick={this.onClick} className={editorStyles.headlineButton}>
-          H
-        </button>
-      </div>
-    );
-  }
-}
 
 const toolbarPlugin = createToolbarPlugin({
   structure: [
@@ -75,7 +65,6 @@ const toolbarPlugin = createToolbarPlugin({
     UnderlineButton,
     CodeButton,
     Separator,
-    HeadlinesButton,
     UnorderedListButton,
     OrderedListButton,
     BlockquoteButton,
@@ -83,7 +72,7 @@ const toolbarPlugin = createToolbarPlugin({
   ]
 });
 const { Toolbar } = toolbarPlugin;
-const plugins = [toolbarPlugin, counterPlugin];
+const plugins = [toolbarPlugin, counterPlugin, undoPlugin];
 
 
 
@@ -111,7 +100,7 @@ export default class TextEditor extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='Text'>
         <div style={editorStyles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
@@ -119,8 +108,11 @@ export default class TextEditor extends React.Component {
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
           />
-          <Toolbar /> 
+            <Toolbar/>
+          <UndoButton />
+          <RedoButton /> 
         </div>
+       
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>
         <div><LineCounter limit={10} /> lines</div>
@@ -152,7 +144,7 @@ const editorStyles={
   headlineButton : {
     background: "#fbfbfb",
     color: "#888",
-    fontSize: "14px",
+    fontSize: "10px",
     border: "0",
     paddingTop: "5px",
     verticalAlign: "bottom",
