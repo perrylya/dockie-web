@@ -28,7 +28,6 @@ onLogin() {
   fetch('/login'), {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -37,6 +36,7 @@ onLogin() {
     })
     .then((response) => response.json())
     .then((responseJson) => {
+      console.log(responseJson)
       this.setState({loggedIn: responseJson})
     })
     .catch((error) => {
