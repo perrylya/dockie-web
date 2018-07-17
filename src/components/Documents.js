@@ -2,6 +2,7 @@ import React from 'react';
 import {Editor, EditorState} from 'draft-js';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import ActionSettingsInputComponent from 'material-ui/SvgIcon';
 
 const customStyles = {
   content : {
@@ -56,7 +57,7 @@ export default class Documents extends React.Component {
 
             <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
             <form>
-              <input />
+              <input/>
               <button onClick={this.afterOpenModal}>add</button>
               <button onClick={this.closeModal}>close</button>
             </form>

@@ -76,7 +76,9 @@ const plugins = [toolbarPlugin, counterPlugin, undoPlugin];
 export default class CreateDoc extends React.Component {
       constructor(props){
       super(props)
-      this.state = {};
+      this.state = {
+        document: null,
+      };
       const content = window.localStorage.getItem('content')
       if (content) {
         this.state.editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
@@ -85,17 +87,30 @@ export default class CreateDoc extends React.Component {
       }
       }
  
+  
+  componentDidMount(){
+    // fetch Document by ID to database and then set the state of current doc 
+    // fetch request to server 
+    // this.setState({
+
+    // })
+  }
+
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
     this.saveContent(contentState)
     this.setState({ editorState });
     console.log(convertToRaw)
+    
+
+
+    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)))
+
+
   };
 
-  saveContent =(content) => {
-    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)))
-  }
+  
 
 
   focus(){
