@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Button from '@material-ui/core/Button';
 
 class LoginScreen extends Component {
   constructor(props){
@@ -9,7 +8,7 @@ class LoginScreen extends Component {
       password: ''
     }
   }
-}
+
 
 onNameChange = (event) =>{
   this.setState({
@@ -24,14 +23,14 @@ onPassChange = (event) =>{
 }
 
 
-render(){
-  return(
-    <div>
-      <input onChange = {this.onNameChange} className = "field" placeholder = "Username"/>
-      <input onChange = {this.onPassChange} className = "field" placeholder = "Password"/>
-      <Button variant = "contained" color="primary">Login</Button>
-    </div>
-
-  )
+  render(){
+    return (
+      <div>
+        <input onChange = {this.onNameChange} className = "field" placeholder = "Username"/>
+        <input onChange = {this.onPassChange} className = "field" placeholder = "Password"/>
+        <button>Login</button>
+      </div>
+    );
+  }
 }
-
+export default LoginScreen;

@@ -15,6 +15,7 @@ export default class Documents extends React.Component {
         <h2 className='Documents'>
           Create/Edit Documents
         </h2>
+        <hr/> 
         <button onClick={() => this.props.redirect('Home')}>Go back to Homepage</button>
         <button onClick={() => this.props.redirect('CreateDoc')}>Create New Document</button>
       </div>
