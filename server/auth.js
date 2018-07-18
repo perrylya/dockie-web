@@ -39,7 +39,9 @@ module.exports = function(passport) {
 
   //login
   router.post('/login', passport.authenticate('local'), (req, res) => {
-    res.redirect('/getuser')
+    res.json({
+      success: true
+    })
   });
 
   router.get('/logout', function(req, res) {
@@ -49,7 +51,7 @@ module.exports = function(passport) {
 
   router.get('/getuser', (req, res) => {
     if(!req.user) {
-      throw error
+      throw 'error'
     } else {
       res.send(req.user)
     }
