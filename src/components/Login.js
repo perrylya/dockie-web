@@ -12,6 +12,10 @@ class LoginScreen extends Component {
     }
   }
 
+  handleLogin =()=> {
+    this.props.onLogin(this.state.name, this.state.password)
+  }
+
 
   onNameChange = (event) =>{
     this.setState({
@@ -25,28 +29,6 @@ class LoginScreen extends Component {
     })
   }
 
-  onLogin = () => {
-    fetch('http://localhost:8888/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: this.state.name,
-        password: this.state.password
-      })
-    })
-    .then((response) => {
-      return response.json()
-    })
-    .then((text) => {
-      console.log(text)
-      text.success ? this.props.redirect('Documents') : alert('invalid login')
-    })
-    .catch((error) => {
-      alert(error)
-    })
-  }
 
   render(){
     return (
@@ -56,7 +38,7 @@ class LoginScreen extends Component {
             <br/>
             <Input onChange = {this.onPassChange}  className = "field" placeholder = "Password..."/>
             <br />
-            <Button className = "login-button" onClick = {this.onLogin} primary animated >
+            <Button className = "login-button" onClick = {this.handleLogin} primary animated >
               <Button.Content visible>Login</Button.Content>
               <Button.Content hidden>
                 <Icon name='right arrow' />

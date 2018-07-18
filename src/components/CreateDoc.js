@@ -85,21 +85,24 @@ export default class CreateDoc extends React.Component {
         };
       }
 
-    //  componentDidMount() {
-    // // fetch Document by ID to database and then set the state of current doc
-    // // fetch request to server
-    // // this.setState({
-    //
-    // // })
-    //   fetch('/content').then(val => val.json())
-    //   .then(rawContent => {
-    //     if (rawContent) {
-    //       this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(rawContent))) })
-    //     } else {
-    //       this.setState({ editorState: EditorState.createEmpty() });
-    //     }
-    //   });
-    // }
+     componentDidMount() {
+       var socket = io('http://localhost:8888');
+       socket.on('connect', () => this.setState({connecting: null}))
+       socket.on('disconnect', () => this.setState({connecting: true}))
+       socket.emit('openDocument', {docId: document.docId}, (res) => {
+         this.setState({
+           document: res.doc
+         })
+         res.document.rawState && this.setState({
+           editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.document.rawState)))
+         })
+       })
+    }
+
+
+
+
+
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
@@ -112,9 +115,9 @@ export default class CreateDoc extends React.Component {
     // socket.emit("updateDoc", {content:this.state.content})//live collaboration
   };
 
-  saveContent =(content) => {
-    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)))
-  }
+  // saveContent =(content) => {
+  //   window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)))
+  // }
 
 
   focus(){
@@ -187,7 +190,7 @@ const editorStyles={
   },
   headlineButton:"hover",
   toolbar:{
-    
+
   }
 
 }

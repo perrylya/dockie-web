@@ -28,6 +28,7 @@ export default class Documents extends React.Component {
       modal2IsOpen: false,
       existingDocs: data,
       docId: '',
+      docs: [],
     };
 
     this.openNewDocModal = this.openNewDocModal.bind(this);
@@ -37,6 +38,19 @@ export default class Documents extends React.Component {
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
+
+  //requesting to load all the documents from database
+  loadDocuments=()=> {
+    this.props.sockets.emit('getDocuments', {}, (res)=> {
+      if(res.err) return alert ('Error')
+      this.setState({docs: res.docs})
+    })
+  }
+
+  componentDidMount(){
+    this.loadDocuments()
+  }
+
 
   openNewDocModal() {
     this.setState({modal2IsOpen: true});
