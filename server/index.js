@@ -56,13 +56,13 @@ app.get('/users', (req, res) => {
 
 //app.get('/docs')
 
-// io.on('connection', function (socket) {
-//   socket.on('getDocuments', (data, next) => {
-//     Doc.find({
-//       collabs: {$in: socket._activeUser.id}
-//     }, (err, docs) => next({err, docs}))
-//   })
-// })
+io.on('connection', function (socket) {
+  socket.on('getDocuments', (data, next) => {
+    Doc.find({
+      collabs: {$in: socket._activeUser.id}
+    }, (err, docs) => next({err, docs}))
+  })
+})
 
 
 // app.post('/savedoc', (req, res) => {
