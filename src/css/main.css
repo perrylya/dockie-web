@@ -1,9 +1,7 @@
 h1{
   color: pink;
-  font-size:48;
-  font-family: Impact, Charcoal, sans-serif;
-  justify-content: center;
-  align-items: center;
+  font-size:3rem;
+  font-family: Impact, Charcoal, sans-serif
 }
 h2 {
   color: black;
@@ -13,10 +11,10 @@ h2 {
 }
 
 body{
-  background-color:white;
-  display: block;
+  background-color: white;
+  margin: 100px;
 }
-hr { 
+hr {
   display: block;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -26,9 +24,41 @@ hr {
   border-width: 1px;
 }
 
+.main-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.login-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.login{
+  display: flex;
+
+}
+
+.input-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+Button{
+  width: 50%;
+  flex-direction:row;
+
+}
+
 .text{
   font-size: 14;
-  color: black 
+  color: black
 }
 
 .Documents {

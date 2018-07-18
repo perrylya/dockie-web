@@ -30,32 +30,32 @@ const counterPlugin = createCounterPlugin();
 const { CharCounter, WordCounter, LineCounter, CustomCounter } = counterPlugin;
 
 
-class HeadlinesPicker extends React.Component {
-  componentDidMount() {
-    setTimeout(() => { window.addEventListener('click', this.onWindowClick); });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('click', this.onWindowClick);
-  }
-
-  onWindowClick(){
-    // Call `onOverrideContent` again with `undefined`
-    // so the toolbar can show its regular content again.
-    this.props.onOverrideContent(undefined)
-  }
-
-  render(){
-    const buttons = [HeadlineOneButton, HeadlineTwoButton, HeadlineThreeButton];
-    return (
-      <div>
-        {buttons.map((Button, i) => // eslint-disable-next-line
-          <Button key={i} {...this.props} />
-        )}
-      </div>
-    );
-  }
-}
+// class HeadlinesPicker extends React.Component {
+//   componentDidMount() {
+//     setTimeout(() => { window.addEventListener('click', this.onWindowClick); });
+//   }
+//
+//   componentWillUnmount() {
+//     window.removeEventListener('click', this.onWindowClick);
+//   }
+//
+//   onWindowClick(){
+//     // Call `onOverrideContent` again with `undefined`
+//     // so the toolbar can show its regular content again.
+//     this.props.onOverrideContent(undefined)
+//   }
+//
+//   render(){
+//     const buttons = [HeadlineOneButton, HeadlineTwoButton, HeadlineThreeButton];
+//     return (
+//       <div>
+//         {buttons.map((Button, i) => // eslint-disable-next-line
+//           <Button key={i} {...this.props} />
+//         )}
+//       </div>
+//     );
+//   }
+// }
 
 const toolbarPlugin = createToolbarPlugin({
   structure: [
@@ -78,11 +78,13 @@ export default class CreateDoc extends React.Component {
       constructor(props){
       super(props)
       this.state = {
-        document: null, 
+        document: null,
+        editorState: EditorState.createEmpty()
         // creatorId: this.props.user._id ,
 
         };
       }
+<<<<<<< HEAD
  
      componentDidMount() {
     // fetch Document by ID to database and then set the state of current doc 
@@ -100,14 +102,34 @@ export default class CreateDoc extends React.Component {
         }
       });
     }
+=======
+
+    //  componentDidMount() {
+    // // fetch Document by ID to database and then set the state of current doc
+    // // fetch request to server
+    // // this.setState({
+    //
+    // // })
+    //   fetch('/content').then(val => val.json())
+    //   .then(rawContent => {
+    //     if (rawContent) {
+    //       this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(rawContent))) })
+    //     } else {
+    //       this.setState({ editorState: EditorState.createEmpty() });
+    //     }
+    //   });
+    // }
+>>>>>>> 038585bb1fd67adc709d67bc8419afb287227e36
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
     this.saveContent(contentState)
     this.setState({ editorState });
     console.log(convertToRaw)
-    
-    // socket.emit("updateDoc", {content:this.state.content, password: this.state.password })
+    //convertToRaw(content) post route to document ID
+
+
+    // socket.emit("updateDoc", {content:this.state.content})//live collaboration
   };
 
   saveContent =(content) => {
@@ -135,12 +157,15 @@ export default class CreateDoc extends React.Component {
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
           />
+            <div style={editorStyles.toolbar}>
             <Toolbar/>
-          <UndoButton />
-          <RedoButton /> 
+            <UndoButton />
+            <RedoButton />
+          </div>
+
         </div>
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
-       
+
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>
         <div><LineCounter limit={10} /> lines</div>
@@ -158,6 +183,7 @@ export default class CreateDoc extends React.Component {
 const editorStyles={
   editor:{
     boxSizing: "border-box",
+    width:"150%",
     border: "1px solid #ddd",
     cursor: "text",
     padding: "16px",
@@ -180,7 +206,8 @@ const editorStyles={
     width: "36px",
   },
   headlineButton:"hover",
+  toolbar:{
+    
+  }
+
 }
-
-
-

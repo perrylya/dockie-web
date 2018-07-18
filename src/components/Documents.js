@@ -29,7 +29,6 @@ export default class Documents extends React.Component {
       modal2IsOpen: false,
       existingDocs: data,
       docId: '',
-      currentPage: 'Home'
     };
 
     this.openNewDocModal = this.openNewDocModal.bind(this);
@@ -75,7 +74,6 @@ export default class Documents extends React.Component {
     this.setState({
       modalIsOpen: false,
       existingDocs: newDocs,
-      currentPage: 'CreateDoc'
     })
     this.props.redirect('CreateDoc')
   }
@@ -117,7 +115,7 @@ export default class Documents extends React.Component {
               Password: <input />
             </div>
           </form>
-          <button onClick={this.addNewDocModal}>Create New</button>
+          <button onClick={() => this.props.redirect('CreateDoc')}>Create New</button>
           <button onClick={this.closeNewDocModal}>Cancel</button>
         </Modal>
 
