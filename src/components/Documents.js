@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 Modal.setAppElement(document.getElementById('App'))
 
+
 var data = [
   {documentId: '1'},
   {documentId: '2'}

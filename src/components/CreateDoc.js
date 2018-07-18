@@ -90,7 +90,8 @@ export default class CreateDoc extends React.Component {
     // this.setState({
 
     // })
-      fetch('/content').then(val => val.json())
+      fetch('/content')
+      .then(val => val.json())
       .then(rawContent => {
         if (rawContent) {
           this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(rawContent))) })
