@@ -92,16 +92,15 @@ export default class CreateDoc extends React.Component {
          })
          res.doc.rawState && this.setState({
            editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))
-
-          socket.on('syncDocument',this.remoteStateChange)
          })
+         socket.on('syncDocument',this.remoteStateChange)
        })
     }
 
     remoteStateChange=(res)=> {
-      this.setState{(
+      this.setState({
         editorState: EditorState.createWithContent(convertFromRaw(res.rawState))
-      )}
+      })
     }
 
 

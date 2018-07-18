@@ -29,8 +29,9 @@ export default class Documents extends React.Component {
       modalIsOpen: false,
       modal2IsOpen: false,
       existingDocs: data,
-      docId: '',
       docs: [],
+      title: '',
+      password: '',
     };
 
     this.openNewDocModal = this.openNewDocModal.bind(this);
@@ -54,7 +55,9 @@ export default class Documents extends React.Component {
   componentDidMount(){
     this.loadDocuments()
   }
-
+  onCreate=()=>{
+    this.socket.emit('createDocument', {title:this.state.title, password: this.state.password, userId: this.props.userId})
+  }
 
   openNewDocModal() {
     this.setState({modal2IsOpen: true});
@@ -69,15 +72,15 @@ export default class Documents extends React.Component {
       this.subtitle.style.color = '#f00';
   }
 
-  addNewDocName(event) {
+  addPassword(event) {
     this.setState({
-      docId: event.target.value
+      password: event.target.value
     })
   }
 
-  addName(event) {
+  addTitle(event) {
     this.setState({
-      docId: event.target.value
+      title: event.target.value
     })
   }
 
@@ -128,8 +131,8 @@ export default class Documents extends React.Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>New Doc</h2>
           <form>
             <div>
-              Title: <input onChange={(event) => this.addName(event)} value={this.state.docId} type="text"></input><br/>
-              Password: <input />
+              Title: <input onChange={(event) => this.addTitle(event)}  type="text"/><br/>
+              Password: <input onChange={(event)=> this.addPassword(event) type="text"}/>
             </div>
           </form>
           <button onClick={() => this.props.redirect('CreateDoc')}>Create New</button>
@@ -141,7 +144,7 @@ export default class Documents extends React.Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
           <form>
             <div>
-              Document ID: <input onChange={(event) => this.addName(event)} value={this.state.docId} type="text"></input>
+              Document ID: <input onChange={(event) => this.addTitle(event)} value={this.state.docId} type="text"></input>
             </div>
           </form>
           <button onClick={this.addModal}>Update</button>
