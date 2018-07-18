@@ -3,6 +3,7 @@ import Documents from './Documents.js';
 import CreateDoc from './CreateDoc.js';
 import LoginScreen from './Login';
 import RegisterScreen from './Register'
+import {Button, Icon} from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
@@ -29,14 +30,22 @@ class App extends React.Component {
 
   render() {
     return(
-      <div>
-        <h1>Welcome to Dockie</h1>
+      <div className="main-container">
         {this.state.currentPage === 'Home' ?
-        <div><button onClick={() => this.redirect('Login')}>Login</button><br/><button onClick={() => this.redirect('Register')}>Register</button></div> : null}
-        {this.state.currentPage === 'Login' ? <div><LoginScreen /><br/><button onClick={() => this.redirect('Register')}>Register</button></div> : null}
-        {this.state.currentPage === 'Register' ? <div><RegisterScreen /><button onClick={() => this.redirect('Login')}>Login</button></div> : null}
-        {this.state.currentPage === 'Documents' ? <Documents redirect={this.redirect}/> : null}
-        {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={this.redirect}/> : null}
+        <div className = "login-container">
+          <h1>Welcome to Dockie</h1>
+          <LoginScreen />
+          <br/>
+          <Button color = 'green' className = "register-button"  animated onClick = {() => this.redirect('Register')}>
+            <Button.Content visible>Register</Button.Content>
+            <Button.Content hidden>
+              <Icon name='right arrow' />
+            </Button.Content>
+          </Button>
+        </div> : null}
+        {this.state.currentPage === 'Register' ? <div><RegisterScreen /></div> : null}
+        {this.state.currentPage === 'Documents' ? <Documents redirect={() => this.redirect}/> : null}
+        {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={() => this.redirect}/> : null}
       </div>
     )
   }

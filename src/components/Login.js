@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Documents from './Documents'
+import {Button, Icon, Input} from 'semantic-ui-react';
 
 class LoginScreen extends Component {
   constructor(props){
@@ -46,14 +47,21 @@ class LoginScreen extends Component {
 
   render(){
     return (
-      <div>
+      <div className = "login">
         {this.state.loggedIn ?
           <Documents />
           :
-          <div>
-            <input onChange = {this.onNameChange} className = "field" placeholder = "Username"/>
-            <input onChange = {this.onPassChange} className = "field" placeholder = "Password"/>
-            <button onClick = {this.onLogin}>Login</button>
+          <div className = "input-container">
+            <Input onChange = {this.onNameChange}  className = "field" placeholder = "Username..."/>
+            <br/>
+            <Input onChange = {this.onPassChange}  className = "field" placeholder = "Password..."/>
+            <br />
+            <Button className = "login-button" onClick = {this.onLogin} primary animated >
+              <Button.Content visible>Login</Button.Content>
+              <Button.Content hidden>
+                <Icon name='right arrow' />
+              </Button.Content>
+            </Button>
           </div>
         }
       </div>
