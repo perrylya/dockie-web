@@ -16,11 +16,29 @@ class App extends React.Component {
     this.redirect= this.redirect.bind(this)
   }
 
-  // //editPage(id){
-  //     this.setState({
-  //       docId: id
-  //     })
-  // // }
+  onLogin = (name, password) => {
+    fetch('http://localhost:8888/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: name,
+        password: password
+      })
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((text) => {
+      console.log(text)
+      text.success ? this.redirect('Documents') : alert('invalid login')
+    })
+    .catch((error) => {
+      alert(error)
+    })
+  }
+
 
   redirect(page) {
     this.setState({
@@ -35,7 +53,7 @@ class App extends React.Component {
         {this.state.currentPage === 'Home' ?
         <div className = "login-container">
           <h1>Welcome to Dockie</h1>
-          <LoginScreen redirect={(e) => this.redirect(e)}/>
+          <LoginScreen onLogin={this.onLogin}   redirect={(e) => this.redirect(e)}/>
           <br/>
           <Button color = 'green' className = "register-button"  animated onClick = {() => this.redirect('Register')}>
             <Button.Content visible>Register</Button.Content>
