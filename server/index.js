@@ -10,7 +10,12 @@ const Strategy = LocalStrategy.Strategy;
 import passport from './passport'
 var MongoStore = require('connect-mongo')(session);
 import User from '../src/models/user';
-import Document from '../src/models/document';
+import Document from '../src/models/document'
+import socketIO from 'socket.io'
+import http from 'http'
+
+const server = http.Server(app)
+const io = socketIO(server)
 
 mongoose.connection.on('connected', () =>{
   console.log('Successfully connected to MongoDB');
@@ -51,22 +56,31 @@ app.get('/users', (req, res) => {
 
 //app.get('/docs')
 
-app.post('/savedoc', (req, res) => {
-  var newDoc = new Document({
-    creator: req.body.creator,
-    collabs: req.body.collabs,
-    content: req.body.content,
-    password: req.body.password,
-    title: req.body.title
-  })
-  newDoc.save(function(err, user) {
-    if (err) {
-      res.send(err);
-      return;
-    }
-    res.send(true)
-  })
-});
+// io.on('connection', function (socket) {
+//   socket.on('getDocuments', (data, next) => {
+//     Doc.find({
+//       collabs: {$in: socket._activeUser.id}
+//     }, (err, docs) => next({err, docs}))
+//   })
+// })
+
+
+// app.post('/savedoc', (req, res) => {
+//   var newDoc = new Document({
+//     creator: req.body.creator,
+//     collabs: req.body.collabs,
+//     content: req.body.content,
+//     password: req.body.password,
+//     title: req.body.title
+//   })
+//   newDoc.save(function(err, user) {
+//     if (err) {
+//       res.send(err);
+//       return;
+//     }
+//     res.send(true)
+//   })
+// });
 
 
 app.listen(8888);

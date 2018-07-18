@@ -40,6 +40,7 @@ module.exports = function(passport) {
   //login
   router.post('/login', passport.authenticate('local'), (req, res) => {
     res.json({
+      userId: req.user._id,
       success: true
     })
   });
@@ -49,12 +50,5 @@ module.exports = function(passport) {
     res.redirect('/login');
   });
 
-  router.get('/getuser', (req, res) => {
-    if(!req.user) {
-      throw 'error'
-    } else {
-      res.send(req.user)
-    }
-  })
   return router;
 }
