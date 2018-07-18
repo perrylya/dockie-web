@@ -57,11 +57,28 @@ app.get('/users', (req, res) => {
 //app.get('/docs')
 
 io.on('connection', function (socket) {
+
   socket.on('getDocuments', (data, next) => {
     Doc.find({
-      collabs: {$in: socket._activeUser.id}
+      collabs: {$in: socket.userId}
     }, (err, docs) => next({err, docs}))
   })
+
+  socket.on('addDocumentCollaborator', (data, next) => {
+    Doc.findOne({
+      _id: data.docId,
+    }, (err, docs) => {
+      if(err) return next({err, docs})
+
+      docs.collabs.push(socket._activeUser)
+      docs.save((err) => {
+        next({err, docs})
+      })
+    })
+  })
+
+
+
 })
 
 
