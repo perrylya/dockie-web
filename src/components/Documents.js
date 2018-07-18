@@ -2,6 +2,7 @@ import React from 'react';
 import {Editor, EditorState} from 'draft-js';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import io from 'socket.io-client'
 Modal.setAppElement(document.getElementById('App'))
 
 var data = [
@@ -41,7 +42,10 @@ export default class Documents extends React.Component {
 
   //requesting to load all the documents from database
   loadDocuments=()=> {
-    this.props.sockets.emit('getDocuments', {}, (res)=> {
+    var socket = io('http://localhost:8888');
+    socket.on('connect', () => this.setState({connecting: null}))
+    socket.on('disconnect', () => this.setState({connecting: true}))
+    socket.emit('getDocuments', {userId:this.props.userId}, (res)=> {
       if(res.err) return alert ('Error')
       this.setState({docs: res.docs})
     })

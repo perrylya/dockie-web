@@ -10,8 +10,7 @@ class App extends React.Component {
     super(props);
     this.state = ({
       currentPage: 'Home',
-      // docId: null
-      // creatorId: null
+      userId: '',
     })
     this.redirect= this.redirect.bind(this)
   }
@@ -32,6 +31,9 @@ class App extends React.Component {
     })
     .then((text) => {
       console.log(text)
+      this.setState({
+        userId: text.userId
+      })
       text.success ? this.redirect('Documents') : alert('invalid login')
     })
     .catch((error) => {
@@ -53,7 +55,7 @@ class App extends React.Component {
         {this.state.currentPage === 'Home' ?
         <div className = "login-container">
           <h1>Welcome to Dockie</h1>
-          <LoginScreen onLogin={this.onLogin}   redirect={(e) => this.redirect(e)}/>
+          <LoginScreen onLogin={this.onLogin}  redirect={(e) => this.redirect(e)}/>
           <br/>
           <Button color = 'green' className = "register-button"  animated onClick = {() => this.redirect('Register')}>
             <Button.Content visible>Register</Button.Content>
@@ -63,7 +65,7 @@ class App extends React.Component {
           </Button>
         </div> : null}
         {this.state.currentPage === 'Register' ? <div><RegisterScreen /></div> : null}
-        {this.state.currentPage === 'Documents' ? <Documents redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'Documents' ? <Documents userId={this.state.userId} redirect={(e) => this.redirect(e)}/> : null}
         {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={(e) => this.redirect(e)}/> : null}
       </div>
     )

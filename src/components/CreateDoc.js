@@ -86,9 +86,6 @@ export default class CreateDoc extends React.Component {
       }
 
      componentDidMount() {
-       var socket = io('http://localhost:8888');
-       socket.on('connect', () => this.setState({connecting: null}))
-       socket.on('disconnect', () => this.setState({connecting: true}))
        socket.emit('openDocument', {docId: document.docId}, (res) => {
          this.setState({
            document: res.doc
