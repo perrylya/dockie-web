@@ -7,10 +7,10 @@ var DocumentSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  collabs: {
-    type: String,
-  },
-  content: { 
+  collabs: [
+    {type: String},
+  ],
+  content: {
     type: {},
   },
   password: {
