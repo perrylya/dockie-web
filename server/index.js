@@ -41,31 +41,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//All other server route endpoints
-app.use('/', routes(passport));
-
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-app.get('/users', (req, res) => {
-  User.find().then(users => res.send(users))
-})
-
-//app.get('/docs')
-
 io.on('connection', function (socket) {
-
   socket.on('getDocuments', (data, next) => {
-    Doc.find({
-      collabs: {$in: socket.userId}
+    Document.find({
+      collabs: {$in: data.userId}
     }, (err, docs) => next({err, docs}))
   })
 
   socket.on('addDocumentCollaborator', (data, next) => {
-    Doc.findOne({
+    Document.findOne({
       _id: data.docId,
     }, (err, docs) => {
       if(err) return next({err, docs})
@@ -76,10 +60,24 @@ io.on('connection', function (socket) {
       })
     })
   })
-
-
-
 })
+
+//All other server route endpoints
+app.use('/', routes(passport));
+
+// app.use(function(req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+
+// app.get('/users', (req, res) => {
+//   User.find().then(users => res.send(users))
+// })
+
+//app.get('/docs')
+
+
 
 
 // app.post('/savedoc', (req, res) => {
@@ -100,4 +98,4 @@ io.on('connection', function (socket) {
 // });
 
 
-app.listen(8888);
+server.listen(process.env.PORT || 8888)

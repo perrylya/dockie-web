@@ -49,7 +49,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.currentPage)
     return(
       <div className="main-container">
         {this.state.currentPage === 'Home' ?

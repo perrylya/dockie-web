@@ -24,6 +24,7 @@ const customStyles = {
 export default class Documents extends React.Component {
   constructor(props) {
     super(props);
+    this.socket = io('http://localhost:8888')
     this.state = {
       modalIsOpen: false,
       modal2IsOpen: false,
@@ -42,10 +43,9 @@ export default class Documents extends React.Component {
 
   //requesting to load all the documents from database
   loadDocuments=()=> {
-    var socket = io('http://localhost:8888');
-    socket.on('connect', () => this.setState({connecting: null}))
-    socket.on('disconnect', () => this.setState({connecting: true}))
-    socket.emit('getDocuments', {userId:this.props.userId}, (res)=> {
+    this.socket.on('connect', () => this.setState({connecting: null}))
+    this.socket.on('disconnect', () => this.setState({connecting: true}))
+    this.socket.emit('getDocuments', {userId:this.props.userId}, (res)=> {
       if(res.err) return alert ('Error')
       this.setState({docs: res.docs})
     })
