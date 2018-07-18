@@ -48,18 +48,30 @@ io.on('connection', function (socket) {
     }, (err, docs) => next({err, docs}))
   })
 
-  socket.on('addDocumentCollaborator', (data, next) => {
-    Document.findOne({
-      _id: data.docId,
-    }, (err, docs) => {
-      if(err) return next({err, docs})
+  // socket.on('addDocumentCollaborator', (data, next) => {
+  //   Document.findOne({
+  //     _id: data.docId,
+  //   }, (err, docs) => {
+  //     if(err) return next({err, docs})
+  //
+  //     docs.collabs.push(socket._activeUser)
+  //     docs.save((err) => {
+  //       next({err, docs})
+  //     })
+  //   })
+  // })
 
-      docs.collabs.push(socket._activeUser)
-      docs.save((err) => {
-        next({err, docs})
-      })
-    })
+  socket.on('createDocument', (data, next) => {
+    console.log(data)
+    new Document({
+      creator: data.userId,
+      collabs: [data.userId],
+      password: data.password,
+      title: data.title
+    }).save((err, doc) => next({err, doc}))
   })
+
+
 })
 
 //All other server route endpoints
@@ -80,22 +92,22 @@ app.use('/', routes(passport));
 
 
 
-// app.post('/savedoc', (req, res) => {
-//   var newDoc = new Document({
-//     creator: req.body.creator,
-//     collabs: req.body.collabs,
-//     content: req.body.content,
-//     password: req.body.password,
-//     title: req.body.title
-//   })
-//   newDoc.save(function(err, user) {
-//     if (err) {
-//       res.send(err);
-//       return;
-//     }
-//     res.send(true)
-//   })
-// });
+app.post('/savedoc', (req, res) => {
+  var newDoc = new Document({
+    creator: req.body.creator,
+    collabs: req.body.collabs,
+    content: req.body.content,
+    password: req.body.password,
+    title: req.body.title
+  })
+  newDoc.save(function(err, user) {
+    if (err) {
+      res.send(err);
+      return;
+    }
+    res.send(true)
+  })
+});
 
 
 server.listen(process.env.PORT || 8888)
