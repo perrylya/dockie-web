@@ -9,8 +9,8 @@ import LocalStrategy from 'passport-local'
 const Strategy = LocalStrategy.Strategy;
 import passport from './passport'
 var MongoStore = require('connect-mongo')(session);
-import models from '../src/models/user'
-let User = models;
+import User from '../src/models/user';
+import Document from '../src/models/document';
 
 mongoose.connection.on('connected', () =>{
   console.log('Successfully connected to MongoDB');
@@ -36,10 +36,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/users', (req, res) => {
-  User.find().then(users => res.send(users))
-})
-
+//All other server route endpoints
 app.use('/', routes(passport));
 
 app.use(function(req, res, next) {
@@ -47,5 +44,29 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+app.get('/users', (req, res) => {
+  User.find().then(users => res.send(users))
+})
+
+//app.get('/docs')
+
+app.post('/savedoc', (req, res) => {
+  var newDoc = new Document({
+    creator: req.body.creator,
+    collabs: req.body.collabs,
+    content: req.body.content,
+    password: req.body.password,
+    title: req.body.title
+  })
+  newDoc.save(function(err, user) {
+    if (err) {
+      res.send(err);
+      return;
+    }
+    res.send(true)
+  })
+});
+
 
 app.listen(8888);
