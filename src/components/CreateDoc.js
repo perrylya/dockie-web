@@ -90,31 +90,30 @@ export default class CreateDoc extends React.Component {
          this.setState({
            document: res.doc
          })
-         res.document.rawState && this.setState({
-           editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.document.rawState)))
+         res.doc.rawState && this.setState({
+           editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))
+
+          socket.on('syncDocument',this.remoteStateChange)
          })
        })
     }
 
-
-
-
+    remoteStateChange=(res)=> {
+      this.setState{(
+        editorState: EditorState.createWithContent(convertFromRaw(res.rawState))
+      )}
+    }
 
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
-    this.saveContent(contentState)
-    this.setState({ editorState });
-    console.log(convertToRaw)
-    //convertToRaw(content) post route to document ID
-
-
-    // socket.emit("updateDoc", {content:this.state.content})//live collaboration
+    this.setState({ editorState }, ()=>{
+      socket.emit('syncDocument', {
+        docId: this.state.doc._id,
+        rawState: convertToRaw(editorState.getCurrentContent())
+      })
+    });
   };
-
-  // saveContent =(content) => {
-  //   window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)))
-  // }
 
 
   focus(){
