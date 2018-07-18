@@ -36,9 +36,12 @@ class LoginScreen extends Component {
         password: this.state.password
       })
     })
-    .then((response) => response.text())
+    .then((response) => {
+      return response.json()
+    })
     .then((text) => {
-      this.setState({loggedIn: text})
+      console.log(text)
+      text.success ? this.props.redirect('Documents') : alert('invalid login')
     })
     .catch((error) => {
       alert(error)
@@ -48,9 +51,6 @@ class LoginScreen extends Component {
   render(){
     return (
       <div className = "login">
-        {this.state.loggedIn ?
-          <Documents />
-          :
           <div className = "input-container">
             <Input onChange = {this.onNameChange}  className = "field" placeholder = "Username..."/>
             <br/>
@@ -63,7 +63,6 @@ class LoginScreen extends Component {
               </Button.Content>
             </Button>
           </div>
-        }
       </div>
 
     );

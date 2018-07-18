@@ -29,12 +29,13 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.currentPage)
     return(
       <div className="main-container">
         {this.state.currentPage === 'Home' ?
         <div className = "login-container">
           <h1>Welcome to Dockie</h1>
-          <LoginScreen />
+          <LoginScreen redirect={(e) => this.redirect(e)}/>
           <br/>
           <Button color = 'green' className = "register-button"  animated onClick = {() => this.redirect('Register')}>
             <Button.Content visible>Register</Button.Content>
@@ -44,8 +45,8 @@ class App extends React.Component {
           </Button>
         </div> : null}
         {this.state.currentPage === 'Register' ? <div><RegisterScreen /></div> : null}
-        {this.state.currentPage === 'Documents' ? <Documents redirect={() => this.redirect}/> : null}
-        {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={() => this.redirect}/> : null}
+        {this.state.currentPage === 'Documents' ? <Documents redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={(e) => this.redirect(e)}/> : null}
       </div>
     )
   }
