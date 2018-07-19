@@ -29,8 +29,7 @@ export default class Documents extends React.Component {
       modal2IsOpen: false,
       existingDocs: data,
       docs: [],
-      title: '',
-      password: '',
+      collabId:''
     };
 
     this.openNewDocModal = this.openNewDocModal.bind(this);
@@ -55,14 +54,8 @@ export default class Documents extends React.Component {
     this.loadDocuments()
   }
 
-  onCreate=()=>{
-    this.props.socket.emit('createDocument', {title:this.state.title, password: this.state.password, userId: this.props.userId}, (res) => {
-      if (res.err) {
-        return alert (res)
-      }else{
-        this.props.redirect('CreateDoc', res.doc._id)
-      }
-    })
+  addCollab = (event) =>{
+    this.setState({collabId: event.target.value})
   }
 
   openNewDocModal() {
@@ -76,18 +69,6 @@ export default class Documents extends React.Component {
   afterOpenModal() {
     // references are now sync'd and can be accessed.
     this.subtitle.style.color = '#f00';
-  }
-
-  addPassword(event) {
-    this.setState({
-      password: event.target.value
-    })
-  }
-
-  addTitle(event) {
-    this.setState({
-      title: event.target.value
-    })
   }
 
   addNewDocModal = () => {
@@ -105,15 +86,14 @@ export default class Documents extends React.Component {
   }
 
   updateDocument = () => {
-    this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.state.title}, (res)=> {
+    this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.state.collabId}, (res)=> {
       if(res.err) {
         return alert ('Error')
       }
       else{
-        this.props.redirect('CreateDoc', this.state.title);
+        this.props.redirect('CreateDoc', this.state.collabId);
       }
     })
-
   }
 
   closeNewDocModal() {
@@ -136,11 +116,11 @@ export default class Documents extends React.Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>New Doc</h2>
           <form>
             <div>
-              Title: <input onChange={(event) => this.addTitle(event)}  type="text"/><br/>
-              Password: <input onChange={(event)=> this.addPassword(event)} type="text"/>
+              Title: <input onChange={(event) => this.props.addTitle(event)}  type="text"/><br/>
+              Password: <input onChange={(event)=> this.props.addPassword(event)} type="text"/>
             </div>
           </form>
-          <button onClick={this.onCreate}>Create New</button>
+          <button onClick={this.props.onCreate}>Create New</button>
           <button onClick={this.closeNewDocModal}>Cancel</button>
         </Modal>
 
@@ -149,7 +129,7 @@ export default class Documents extends React.Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
           <form>
             <div>
-              Document ID: <input onChange={(event) => this.addTitle(event)} type="text"></input>
+              Document ID: <input onChange={this.addCollab} type="text"></input>
             </div>
           </form>
           <button onClick={this.updateDocument}>Update</button>

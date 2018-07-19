@@ -10,8 +10,8 @@ var DocumentSchema = new mongoose.Schema({
     ref: 'User',
     type: mongoose.Schema.ObjectId
   }],
-  content: {
-    type: {},
+  rawState: {
+    type: String,
   },
   password: {
     type: String,

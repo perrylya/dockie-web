@@ -50,6 +50,7 @@ io.on('connection', function (socket) {
   })
 
   socket.on('collaborateDocument', (data, next) => {
+    console.log(data.docId);
      Document.findOne({
        _id: data.docId,
      }, (err, docs) => {
@@ -67,7 +68,8 @@ io.on('connection', function (socket) {
       creator: data.userId,
       collabs: [data.userId],
       password: data.password,
-      title: data.title
+      title: data.title,
+      rawState: ''
     })
     .save((err, doc) => {
       console.log('this is doc'+doc);
@@ -75,9 +77,12 @@ io.on('connection', function (socket) {
   })
 
   socket.on('saveDocument', (data, next) => {
-   Document.findOneAndUpdate({
+    console.log(data.docId)
+    console.log(data.rawState)
+   Document.findOne({
      _id: data.docId,
    }, (err, doc) => {
+     console.log('document found')
      if(err) return next({err})
      doc.rawState = data.rawState
      doc.save((err) => next({err}))
