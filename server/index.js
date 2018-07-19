@@ -61,7 +61,6 @@ io.on('connection', function (socket) {
      })
   })
 
-
   socket.on('createDocument', (data, next) => {
     console.log('this is data:'+data);
     new Document({
