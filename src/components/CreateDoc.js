@@ -88,7 +88,17 @@ export default class CreateDoc extends React.Component {
     // });
   };
 
-  
+  // onSave = () => {
+  //   this.props.socket.emit('saveDocument', {
+  //     docId: options.docId,
+  //     rawState: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
+  //   }, (res) => {
+  //     if(res.err) return alert('Opps Error')
+  //   })
+  // }
+
+
+  onExit = () => this.props.redirect('Documents')
 
 
   focus(){
@@ -103,7 +113,7 @@ export default class CreateDoc extends React.Component {
   render() {
     return (
       <div className='Textbox'>
-        <h2 className='CreateDoc'>{this.props.title}</h2>
+        <h2 className='CreateDoc'>Editing Document</h2>
         <div style={editorStyles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
@@ -119,6 +129,8 @@ export default class CreateDoc extends React.Component {
 
         </div>
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
+        <button onClick={this.onSave}>save</button>
+        <button onClick={this.onExit}>exit</button>
 
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>
