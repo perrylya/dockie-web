@@ -84,9 +84,9 @@ io.on('connection', function (socket) {
     })
 
     socket.on('openDocument', (data, next) => {
-        console.log(data)
+        console.log(data.docId)
         socket.join(data.docId)
-        Doc.findOne({
+        Document.findOne({
           _id: data.docId,
         }, (err, doc) => next({err, doc}))
       })

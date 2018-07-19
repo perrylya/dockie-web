@@ -61,7 +61,8 @@ export default class CreateDoc extends React.Component {
      componentDidMount() {
        console.log(document)
        this.props.socket.emit('openDocument', {docId: this.props.docId}, (res) => {
-         this.setState({
+        if(res.err) return alert('Opps Error')
+        this.setState({
            document: res.doc,
          })
          const content = res.doc.rawState
