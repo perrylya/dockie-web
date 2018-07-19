@@ -70,8 +70,10 @@ io.on('connection', function (socket) {
       rawState: ''
     })
     .save((err, doc) => {
-      next({err, doc})})
+      next({err, doc})
+      })
     })
+  
 
     socket.on('saveDocument', (data, next) => {
       Document.findOne({
