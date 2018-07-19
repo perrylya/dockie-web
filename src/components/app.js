@@ -71,7 +71,7 @@ class App extends React.Component {
             </Button.Content>
           </Button>
         </div> : null}
-        {this.state.currentPage === 'Register' ? <div><RegisterScreen /></div> : null}
+        {this.state.currentPage === 'Register' ? <div><RegisterScreen redirect={(e) => this.redirect(e)}/></div> : null}
         {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} redirect={(e) => this.redirect(e)}/> : null}
         {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} docId ={this.state.docId} redirect={(e) => this.redirect(e)}/> : null}
       </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import {Editor, EditorState} from 'draft-js';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import { Button, Icon, Image as ImageComponent, Item, Label } from 'semantic-ui-react'
 Modal.setAppElement(document.getElementById('App'))
 
 var data = [
@@ -56,8 +57,11 @@ export default class Documents extends React.Component {
 
   onCreate=()=>{
     this.props.socket.emit('createDocument', {title:this.state.title, password: this.state.password, userId: this.props.userId}, (res) => {
-      if (res.err) return alert ('Error')
-      this.props.redirect('CreateDoc', res.doc._id)
+      if (res.err) {
+        return alert (res)
+      }else{
+        this.props.redirect('CreateDoc', res.doc._id)
+      }
     })
   }
 
@@ -70,8 +74,8 @@ export default class Documents extends React.Component {
   }
 
   afterOpenModal() {
-      // references are now sync'd and can be accessed.
-      this.subtitle.style.color = '#f00';
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = '#f00';
   }
 
   addPassword(event) {
@@ -153,9 +157,21 @@ export default class Documents extends React.Component {
           <button onClick={this.closeModal}>Cancel</button>
         </Modal>
         <div>
-          {this.state.existingDocs.map(id => <div>{id.documentId}</div>)}
-        </div>
+          <br/>
+        <Item.Group divided>
+        {this.state.docs.map(doc =>
+            <Item>
+              <Item.Content>
+                <Item.Header as='a'>{doc.title}</Item.Header>
+                <Item.Meta>
+                  <span className='creator'>Creator: {doc.creator}</span>
+                </Item.Meta>
+                <Item.Description>Collaborators: {doc.collabs}</Item.Description>
+              </Item.Content>
+            </Item>)}
+          </Item.Group>
       </div>
-    )
-  }
+    </div>
+  )
+}
 }

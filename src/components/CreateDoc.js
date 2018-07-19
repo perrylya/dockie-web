@@ -125,7 +125,7 @@ export default class CreateDoc extends React.Component {
 
   render() {
     return (
-      <div className='Text'>
+      <div className='Textbox'>
         <h2 className='CreateDoc'>Editing Document</h2>
         <div style={editorStyles.editor} onClick={this.focus}>
           <Editor
@@ -160,7 +160,7 @@ export default class CreateDoc extends React.Component {
 const editorStyles={
   editor:{
     boxSizing: "border-box",
-    width:"150%",
+    width:"130%",
     border: "1px solid #ddd",
     cursor: "text",
     padding: "16px",
@@ -168,6 +168,7 @@ const editorStyles={
     marginBottom: "2em",
     boxShadow: "inset 0px 1px 8px -3px #ABABAB",
     background: "#fefefe",
+    height: '-webkit-fill-available'
   },
   headlineButtonWrapper:{
     display: "inline-block",

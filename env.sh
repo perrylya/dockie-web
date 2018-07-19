@@ -1,1 +1,1 @@
-export MONGODB_URI="mongodb://perrylya:database123@ds239681.mlab.com:39681/dockie-web"
+export MONGODB_URI="mongodb://asiopongco:horizons1@ds141671.mlab.com:41671/asiopongco-dockie"

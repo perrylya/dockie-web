@@ -42,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 io.on('connection', function (socket) {
+
   socket.on('getDocuments', (data, next) => {
     Document.find({
       collabs: {$in: data.userId}
@@ -62,13 +63,16 @@ io.on('connection', function (socket) {
   // })
 
   socket.on('createDocument', (data, next) => {
+    console.log('this is data:'+data);
     new Document({
       creator: data.userId,
       collabs: [data.userId],
       password: data.password,
       title: data.title
     })
-    .save((err, doc) => next({err, doc}))
+    .save((err, doc) => {
+      console.log('this is doc'+doc);
+      next({err, doc})})
   })
 
 

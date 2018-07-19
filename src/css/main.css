@@ -29,6 +29,8 @@ hr {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 100%;
+  height: auto;
 }
 
 .login-container{
@@ -58,12 +60,23 @@ Button{
 
 .text{
   font-size: 14;
-  color: black
+  color: black;
+  width: 100%;
+  height: auto;
+}
+
+.Textbox{
+  width: 50%;
+  height: auto;
 }
 
 .Documents {
   color: black;
   font-size: 28;
+}
+
+.doc-container{
+  
 }
 
 .CreateDoc{
