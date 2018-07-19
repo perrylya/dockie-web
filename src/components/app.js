@@ -13,7 +13,9 @@ class App extends React.Component {
     this.state = ({
       currentPage: 'Home',
       userId: '',
-      docId: ''
+      docId: '',
+      title: '',
+      password: '',
     })
     this.redirect= this.redirect.bind(this)
   }
@@ -44,6 +46,27 @@ class App extends React.Component {
     })
   }
 
+  addPassword(event) {
+    this.setState({
+      password: event.target.value
+    })
+  }
+
+  addTitle(event) {
+    this.setState({
+      title: event.target.value
+    })
+  }
+
+  onCreate=()=>{
+    this.socket.emit('createDocument', {title:this.state.title, password: this.state.password, userId: this.state.userId}, (res) => {
+      if (res.err) {
+        return alert (res)
+      }else{
+        this.redirect('CreateDoc', res.doc._id)
+      }
+    })
+  }
 
   redirect(page, docId) {
     if(docId) {
@@ -72,7 +95,7 @@ class App extends React.Component {
           </Button>
         </div> : null}
         {this.state.currentPage === 'Register' ? <div><RegisterScreen redirect={(e) => this.redirect(e)}/></div> : null}
-        {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} addPassword={(e) => this.addPassword(e)} addTitle={(e) => this.addTitle(e)} onCreate={this.onCreate} redirect={(e) => this.redirect(e)}/> : null}
         {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} docId ={this.state.docId} redirect={(e) => this.redirect(e)}/> : null}
       </div>
     )

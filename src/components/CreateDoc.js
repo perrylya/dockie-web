@@ -78,9 +78,9 @@ export default class CreateDoc extends React.Component {
 
 
   onChange(editorState){
-    // const contentState = editorState.getCurrentContent()
-    // this.setState({editorState})
-    // convertToRaw(contentState)
+    const contentState = editorState.getCurrentContent()
+    this.setState({editorState})
+    convertToRaw(contentState)
 
     // this.setState({ editorState }, ()=>{
     //   this.props.socket.emit('syncDocument', {
@@ -90,11 +90,17 @@ export default class CreateDoc extends React.Component {
   };
 
   onSave = () => {
+    console.log(this.props.docId)
     this.props.socket.emit('saveDocument', {
       docId: this.props.docId,
       rawState: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
     }, (res) => {
-      if(res.err) return alert('Opps Error')
+      if(res.err) {
+        return alert('Opps Error')
+      }else{
+        alert('Saved')
+      }
+
     })
   }
 
