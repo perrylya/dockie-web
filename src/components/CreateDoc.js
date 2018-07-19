@@ -90,7 +90,6 @@ export default class CreateDoc extends React.Component {
   };
 
   onSave = () => {
-    console.log(this.props.docId)
     this.props.socket.emit('saveDocument', {
       docId: this.props.docId,
       rawState: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))

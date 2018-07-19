@@ -50,7 +50,6 @@ io.on('connection', function (socket) {
   })
 
   socket.on('collaborateDocument', (data, next) => {
-    console.log(data.docId);
     Document.findOne({
       _id: data.docId,
     }, (err, docs) => {
@@ -63,7 +62,6 @@ io.on('connection', function (socket) {
   })
 
   socket.on('createDocument', (data, next) => {
-    console.log('this is data:'+data);
     new Document({
       creator: data.userId,
       collabs: [data.userId],
@@ -72,22 +70,27 @@ io.on('connection', function (socket) {
       rawState: ''
     })
     .save((err, doc) => {
-      console.log('this is doc'+doc);
       next({err, doc})})
     })
 
     socket.on('saveDocument', (data, next) => {
-      console.log(data.docId)
-      console.log(data.rawState)
       Document.findOne({
         _id: data.docId,
       }, (err, doc) => {
-        console.log('document found')
         if(err) return next({err})
         doc.rawState = data.rawState
         doc.save((err) => next({err}))
       })
     })
+
+    socket.on('openDocument', (data, next) => {
+        console.log(data)
+        socket.join(data.docId)
+        Doc.findOne({
+          _id: data.docId,
+        }, (err, doc) => next({err, doc}))
+      })
+
   })
 
   //All other server route endpoints
