@@ -48,16 +48,17 @@ const plugins = [toolbarPlugin, counterPlugin, undoPlugin];
 
 
 export default class CreateDoc extends React.Component {
-      constructor(props){
-      super(props)
-      this.state = {
-        document: null,
-        editorState: EditorState.createEmpty()
-        // creatorId: this.props.user._id ,
+  constructor(props){
+    super(props)
+    this.state = {
+      document: null,
+      editorState: EditorState.createEmpty()
+      // creatorId: this.props.user._id ,
 
-        };
-      }
+    };
+  }
 
+<<<<<<< HEAD
      componentDidMount() {
        console.log(document)
        this.props.socket.emit('openDocument', {docId: this.props.docId}, (res) => {
@@ -74,18 +75,35 @@ export default class CreateDoc extends React.Component {
     }
 
     remoteStateChange=(res)=> {
+=======
+  componentDidMount() {
+    console.log(this.props.collabId)
+    this.props.socket.emit('openDocument', {collabId: this.props.collabId}, (res) => {
+>>>>>>> master
       this.setState({
-        editorState: EditorState.createWithContent(convertFromRaw(res.rawState))
+        document: res.doc,
       })
-    }
-   
-    // componentWillUnmount() {
-    //   socket.off('syncDocument', this.remoteStateChange)
-    //   socket.emit('closeDocument', {docId: options.docId}, (res) => {
-    //     if(res.err) return alert('Opps Error')
-    //     this.setState({ docs: res.docs })
-    //   })
-    // }
+      const content = res.doc.rawState
+      this.setState({
+        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
+      })
+      this.prop.socket.on('syncDocument',this.remoteStateChange)
+    })
+  }
+
+  remoteStateChange=(res)=> {
+    this.setState({
+      editorState: EditorState.createWithContent(convertFromRaw(res.rawState))
+    })
+  }
+
+  // componentWillUnmount() {
+  //   socket.off('syncDocument', this.remoteStateChange)
+  //   socket.emit('closeDocument', {docId: options.docId}, (res) => {
+  //     if(res.err) return alert('Opps Error')
+  //     this.setState({ docs: res.docs })
+  //   })
+  // }
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
@@ -135,7 +153,7 @@ export default class CreateDoc extends React.Component {
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
           />
-            <div style={editorStyles.toolbar}>
+          <div style={editorStyles.toolbar}>
             <Toolbar/>
             <UndoButton />
             <RedoButton />
