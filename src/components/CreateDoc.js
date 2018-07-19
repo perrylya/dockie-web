@@ -58,7 +58,6 @@ export default class CreateDoc extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.collabId)
     this.props.socket.emit('openDocument', {collabId: this.props.collabId}, (res) => {
       this.setState({
         document: res.doc,

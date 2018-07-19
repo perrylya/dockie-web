@@ -53,11 +53,13 @@ io.on('connection', function (socket) {
     Document.findOne({
       _id: data.docId,
     }, (err, docs) => {
-      if(err) return next({err, docs})
+      if(err) {return next({err, docs})}
+      if(docs.collabs.indexOf(data.userId) === -1) {
       docs.collabs.push(data.userId)
       docs.save((err) => {
         next({err, docs})
       })
+    }
     })
   })
 
@@ -74,7 +76,6 @@ io.on('connection', function (socket) {
     })
 
     socket.on('saveDocument', (data, next) => {
-      console.log(data.docId)
       Document.findOne({
         _id: data.docId,
       }, (err, doc) => {
