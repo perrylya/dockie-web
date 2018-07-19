@@ -2,20 +2,19 @@ import mongoose from 'mongoose';
 
 var DocumentSchema = new mongoose.Schema({
   creator: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true
+    ref: 'User',
+    type: mongoose.Schema.ObjectId,
+    required: true
   },
-  collabs: [
-    {type: String},
-  ],
+  collabs: [{
+    ref: 'User',
+    type: mongoose.Schema.ObjectId
+  }],
   content: {
     type: {},
   },
   password: {
     type: String,
-    unique: true,
     required: true,
   },
   title: {

@@ -44,7 +44,7 @@ export default class Documents extends React.Component {
   loadDocuments=()=> {
     this.props.socket.on('connect', () => this.setState({connecting: null}))
     this.props.socket.on('disconnect', () => this.setState({connecting: true}))
-    this.props.socket.emit('getDocuments', {userId:this.props.userId}, (res)=> {
+    this.props.socket.emit('getDocuments', {userId: this.props.userId}, (res)=> {
       if(res.err) return alert ('Error')
       this.setState({docs: res.docs})
     })
@@ -55,8 +55,10 @@ export default class Documents extends React.Component {
   }
 
   onCreate=()=>{
-    this.props.socket.emit('createDocument', {title:this.state.title, password: this.state.password, userId: this.props.userId})
-    this.props.redirect('CreateDoc')
+    this.props.socket.emit('createDocument', {title:this.state.title, password: this.state.password, userId: this.props.userId}, (res) => {
+      if (res.err) return alert ('Error')
+      this.props.redirect('CreateDoc', res.doc._id)
+    })
   }
 
   openNewDocModal() {

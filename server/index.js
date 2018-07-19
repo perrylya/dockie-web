@@ -62,7 +62,6 @@ io.on('connection', function (socket) {
   // })
 
   socket.on('createDocument', (data, next) => {
-    console.log(data)
     new Document({
       creator: data.userId,
       collabs: [data.userId],
@@ -77,38 +76,5 @@ io.on('connection', function (socket) {
 
 //All other server route endpoints
 app.use('/', routes(passport));
-
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-
-// app.get('/users', (req, res) => {
-//   User.find().then(users => res.send(users))
-// })
-
-//app.get('/docs')
-
-
-
-
-app.post('/savedoc', (req, res) => {
-  var newDoc = new Document({
-    creator: req.body.creator,
-    collabs: req.body.collabs,
-    content: req.body.content,
-    password: req.body.password,
-    title: req.body.title
-  })
-  newDoc.save(function(err, user) {
-    if (err) {
-      res.send(err);
-      return;
-    }
-    res.send(true)
-  })
-});
-
 
 server.listen(process.env.PORT || 8888)

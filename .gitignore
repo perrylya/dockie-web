@@ -1,4 +1,4 @@
 node_modules
 out
-env.sh
 package-lock.json
+env.sh

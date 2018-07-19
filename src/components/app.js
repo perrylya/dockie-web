@@ -13,6 +13,7 @@ class App extends React.Component {
     this.state = ({
       currentPage: 'Home',
       userId: '',
+      docId: ''
     })
     this.redirect= this.redirect.bind(this)
   }
@@ -44,10 +45,14 @@ class App extends React.Component {
   }
 
 
-  redirect(page) {
+  redirect(page, docId) {
+    if(docId) {
+      this.setState({currentPage: page, docId: docId})
+    } else {
     this.setState({
       currentPage: page
     })
+  }
   }
 
   render() {
@@ -68,7 +73,7 @@ class App extends React.Component {
         </div> : null}
         {this.state.currentPage === 'Register' ? <div><RegisterScreen /></div> : null}
         {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} redirect={(e) => this.redirect(e)}/> : null}
-        {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} docId ={this.state.docId} redirect={(e) => this.redirect(e)}/> : null}
       </div>
     )
   }

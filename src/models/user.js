@@ -4,14 +4,14 @@ import mongoose from 'mongoose';
 var UserSchema = new mongoose.Schema({
   email: {
     type: String,
-    unique: true,
     required: true,
+    unique: true,
     trim: true
   },
   username: {
     type: String,
-    unique: true,
     required: true,
+    unique: true,
     trim: true
   },
   password: {
