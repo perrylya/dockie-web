@@ -28,7 +28,8 @@ export default class Documents extends React.Component {
       modalIsOpen: false,
       modal2IsOpen: false,
       existingDocs: data,
-      docs: []
+      docs: [],
+      collabId:''
     };
 
     this.openNewDocModal = this.openNewDocModal.bind(this);
@@ -51,6 +52,10 @@ export default class Documents extends React.Component {
 
   componentDidMount(){
     this.loadDocuments()
+  }
+
+  addCollab = (event) =>{
+    this.setState({collabId: event.target.value})
   }
 
   openNewDocModal() {
@@ -81,21 +86,12 @@ export default class Documents extends React.Component {
   }
 
   updateDocument = () => {
-<<<<<<< HEAD
-    this.props.socket.emit('collaborateDocuments', {userId: this.props.userId, documentId: this.props.title}, (res)=> {
-      if(res.err) {
-        return alert ('Error')
-      }
-      else if(res.success){
-        this.props.redirect('CreateDoc', this.props.title);
-=======
-    this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.state.title}, (res)=> {
+    this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.state.collabId}, (res)=> {
       if(res.err) {
         return alert ('Error')
       }
       else{
-        this.props.redirect('CreateDoc', this.state.title);
->>>>>>> master
+        this.props.redirect('CreateDoc', this.state.collabId);
       }
     })
   }
@@ -133,7 +129,7 @@ export default class Documents extends React.Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
           <form>
             <div>
-              Document ID: <input onChange={(event) => this.props.addTitle(event)} type="text"></input>
+              Document ID: <input onChange={this.addCollab} type="text"></input>
             </div>
           </form>
           <button onClick={this.updateDocument}>Update</button>

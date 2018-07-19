@@ -50,6 +50,7 @@ io.on('connection', function (socket) {
   })
 
   socket.on('collaborateDocument', (data, next) => {
+    console.log(data.docId);
      Document.findOne({
        _id: data.docId,
      }, (err, docs) => {
