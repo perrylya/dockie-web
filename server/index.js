@@ -49,18 +49,19 @@ io.on('connection', function (socket) {
     }, (err, docs) => next({err, docs}))
   })
 
-  // socket.on('addDocumentCollaborator', (data, next) => {
-  //   Document.findOne({
-  //     _id: data.docId,
-  //   }, (err, docs) => {
-  //     if(err) return next({err, docs})
-  //
-  //     docs.collabs.push(socket._activeUser)
-  //     docs.save((err) => {
-  //       next({err, docs})
-  //     })
-  //   })
-  // })
+  socket.on('collaborateDocument', (data, next) => {
+     Document.findOne({
+       _id: data.docId,
+     }, (err, docs) => {
+       if(err) return next({err, docs})
+       docs.collabs.push(data.userId)
+       docs.save((err) => {
+         next({err, docs})
+       })
+       if(docs) res.send({success:true})
+     })
+  })
+
 
   socket.on('createDocument', (data, next) => {
     console.log('this is data:'+data);
@@ -74,6 +75,16 @@ io.on('connection', function (socket) {
       console.log('this is doc'+doc);
       next({err, doc})})
   })
+
+  socket.on('saveDocument', (data, next) => {
+   Document.findOneAndUpdate({
+     _id: data.docId,
+   }, (err, doc) => {
+     if(err) return next({err})
+     doc.rawState = data.rawState
+     doc.save((err) => next({err}))
+   })
+ })
 
 
 })
