@@ -91,6 +91,9 @@ export default class Documents extends React.Component {
     })
   }
 
+  deleteDocument = () =>{
+  }
+
   closeNewDocModal() {
     this.setState({modal2IsOpen: false});
   }
