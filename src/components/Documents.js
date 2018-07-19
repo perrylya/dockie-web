@@ -91,7 +91,15 @@ export default class Documents extends React.Component {
     })
   }
 
-  deleteDocument = () =>{
+  deleteDocument = (docId) =>{
+    this.props.socket.emit('deleteDocument', {docId: docId}, (res) =>{
+      if (res.err) {
+        return alert (res.err)
+      }
+      else{
+        alert('Your document has been deleted!');
+      }
+    })
   }
 
   closeNewDocModal() {
@@ -145,7 +153,7 @@ export default class Documents extends React.Component {
                   </Item.Meta>
                   <Item.Description>Collaborators: {doc.collabs}</Item.Description>
                   <Item.Extra>
-                    <Button floated='right' id="delete-button"><Icon name='trash' /></Button>
+                    <Button onClick = {() => this.deleteDocument(doc._id)} floated='right' id="delete-button"><Icon name='trash' /></Button>
                   </Item.Extra>
                 </Item.Content>
               </Item>)}
