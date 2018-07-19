@@ -38,7 +38,7 @@ class LoginScreen extends Component {
             <br/>
             <Input onChange = {this.onPassChange}  className = "field" placeholder = "Password..."/>
             <br />
-            <Button className = "login-button" onClick = {this.handleLogin} primary animated >
+            <Button id="login-button" onClick = {this.handleLogin} primary animated >
               <Button.Content visible>Login</Button.Content>
               <Button.Content hidden>
                 <Icon name='right arrow' />
