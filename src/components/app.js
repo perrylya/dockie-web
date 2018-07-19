@@ -4,10 +4,12 @@ import CreateDoc from './CreateDoc.js';
 import LoginScreen from './Login';
 import RegisterScreen from './Register'
 import {Button, Icon} from 'semantic-ui-react';
+import io from 'socket.io-client'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.socket = io('http://localhost:8888')
     this.state = ({
       currentPage: 'Home',
       userId: '',
@@ -49,6 +51,7 @@ class App extends React.Component {
   }
 
   render() {
+
     return(
       <div className="main-container">
         {this.state.currentPage === 'Home' ?
@@ -64,8 +67,8 @@ class App extends React.Component {
           </Button>
         </div> : null}
         {this.state.currentPage === 'Register' ? <div><RegisterScreen /></div> : null}
-        {this.state.currentPage === 'Documents' ? <Documents userId={this.state.userId} redirect={(e) => this.redirect(e)}/> : null}
-        {this.state.currentPage === 'CreateDoc' ? <CreateDoc redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} redirect={(e) => this.redirect(e)}/> : null}
       </div>
     )
   }

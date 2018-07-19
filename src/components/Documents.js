@@ -2,7 +2,6 @@ import React from 'react';
 import {Editor, EditorState} from 'draft-js';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import io from 'socket.io-client'
 Modal.setAppElement(document.getElementById('App'))
 
 var data = [
@@ -24,7 +23,6 @@ const customStyles = {
 export default class Documents extends React.Component {
   constructor(props) {
     super(props);
-    this.socket = io('http://localhost:8888')
     this.state = {
       modalIsOpen: false,
       modal2IsOpen: false,
@@ -44,9 +42,9 @@ export default class Documents extends React.Component {
 
   //requesting to load all the documents from database
   loadDocuments=()=> {
-    this.socket.on('connect', () => this.setState({connecting: null}))
-    this.socket.on('disconnect', () => this.setState({connecting: true}))
-    this.socket.emit('getDocuments', {userId:this.props.userId}, (res)=> {
+    this.props.socket.on('connect', () => this.setState({connecting: null}))
+    this.props.socket.on('disconnect', () => this.setState({connecting: true}))
+    this.props.socket.emit('getDocuments', {userId:this.props.userId}, (res)=> {
       if(res.err) return alert ('Error')
       this.setState({docs: res.docs})
     })
@@ -55,8 +53,10 @@ export default class Documents extends React.Component {
   componentDidMount(){
     this.loadDocuments()
   }
+
   onCreate=()=>{
-    this.socket.emit('createDocument', {title:this.state.title, password: this.state.password, userId: this.props.userId})
+    this.props.socket.emit('createDocument', {title:this.state.title, password: this.state.password, userId: this.props.userId})
+    this.props.redirect('CreateDoc')
   }
 
   openNewDocModal() {
@@ -132,10 +132,10 @@ export default class Documents extends React.Component {
           <form>
             <div>
               Title: <input onChange={(event) => this.addTitle(event)}  type="text"/><br/>
-              Password: <input onChange={(event)=> this.addPassword(event) type="text"}/>
+              Password: <input onChange={(event)=> this.addPassword(event)} type="text"/>
             </div>
           </form>
-          <button onClick={() => this.props.redirect('CreateDoc')}>Create New</button>
+          <button onClick={this.onCreate}>Create New</button>
           <button onClick={this.closeNewDocModal}>Cancel</button>
         </Modal>
 

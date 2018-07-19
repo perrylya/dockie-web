@@ -68,7 +68,8 @@ io.on('connection', function (socket) {
       collabs: [data.userId],
       password: data.password,
       title: data.title
-    }).save((err, doc) => next({err, doc}))
+    })
+    .save((err, doc) => next({err, doc}))
   })
 
 
