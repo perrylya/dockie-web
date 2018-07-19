@@ -105,7 +105,7 @@ export default class Documents extends React.Component {
   }
 
   updateDocument = () => {
-    this.props.socket.emit('collaborateDocuments', {userId: this.props.userId, documentId: this.state.title}, (res)=> {
+    this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.state.title}, (res)=> {
       if(res.err) {
         return alert ('Error')
       }
