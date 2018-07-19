@@ -51,15 +51,15 @@ io.on('connection', function (socket) {
 
   socket.on('collaborateDocument', (data, next) => {
     console.log(data.docId);
-     Document.findOne({
-       _id: data.docId,
-     }, (err, docs) => {
-       if(err) return next({err, docs})
-       docs.collabs.push(data.userId)
-       docs.save((err) => {
-         next({err, docs})
-       })
-     })
+    Document.findOne({
+      _id: data.docId,
+    }, (err, docs) => {
+      if(err) return next({err, docs})
+      docs.collabs.push(data.userId)
+      docs.save((err) => {
+        next({err, docs})
+      })
+    })
   })
 
   socket.on('createDocument', (data, next) => {
@@ -74,25 +74,23 @@ io.on('connection', function (socket) {
     .save((err, doc) => {
       console.log('this is doc'+doc);
       next({err, doc})})
+    })
+
+    socket.on('saveDocument', (data, next) => {
+      console.log(data.docId)
+      console.log(data.rawState)
+      Document.findOne({
+        _id: data.docId,
+      }, (err, doc) => {
+        console.log('document found')
+        if(err) return next({err})
+        doc.rawState = data.rawState
+        doc.save((err) => next({err}))
+      })
+    })
   })
 
-  socket.on('saveDocument', (data, next) => {
-    console.log(data.docId)
-    console.log(data.rawState)
-   Document.findOne({
-     _id: data.docId,
-   }, (err, doc) => {
-     console.log('document found')
-     if(err) return next({err})
-     doc.rawState = data.rawState
-     doc.save((err) => next({err}))
-   })
- })
+  //All other server route endpoints
+  app.use('/', routes(passport));
 
-
-})
-
-//All other server route endpoints
-app.use('/', routes(passport));
-
-server.listen(process.env.PORT || 8888)
+  server.listen(process.env.PORT || 8888)
