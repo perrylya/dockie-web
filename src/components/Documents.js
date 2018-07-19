@@ -109,7 +109,7 @@ export default class Documents extends React.Component {
       if(res.err) {
         return alert ('Error')
       }
-      else if(res.success){
+      else{
         this.props.redirect('CreateDoc', this.state.title);
       }
     })
