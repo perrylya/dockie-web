@@ -5,13 +5,11 @@ var UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
   username: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
   password: {

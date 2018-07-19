@@ -52,9 +52,8 @@ export default class CreateDoc extends React.Component {
     super(props)
     this.state = {
       document: null,
-      editorState: EditorState.createEmpty()
-      // creatorId: this.props.user._id ,
-
+      editorState: EditorState.createEmpty(),
+      docId: this.props.collabId
     };
   }
 
@@ -99,8 +98,9 @@ export default class CreateDoc extends React.Component {
   };
 
   onSave = () => {
+    console.log(this.state.docId)
     this.props.socket.emit('saveDocument', {
-      docId: this.props.docId,
+      docId: this.state.docId,
       rawState: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
     }, (res) => {
       if(res.err) {
