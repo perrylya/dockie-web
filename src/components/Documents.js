@@ -28,8 +28,7 @@ export default class Documents extends React.Component {
       modalIsOpen: false,
       modal2IsOpen: false,
       existingDocs: data,
-      docs: [],
-      collabId:''
+      docs: []
     };
 
     this.openNewDocModal = this.openNewDocModal.bind(this);
@@ -52,10 +51,6 @@ export default class Documents extends React.Component {
 
   componentDidMount(){
     this.loadDocuments()
-  }
-
-  addCollab = (event) =>{
-    this.setState({collabId: event.target.value})
   }
 
   openNewDocModal() {
@@ -86,12 +81,12 @@ export default class Documents extends React.Component {
   }
 
   updateDocument = () => {
-    this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.state.collabId}, (res)=> {
+    this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.props.collabId}, (res)=> {
       if(res.err) {
         return alert ('Error')
       }
       else{
-        this.props.redirect('CreateDoc', this.state.collabId);
+        this.props.redirect('CreateDoc', this.props.collabId);
       }
     })
   }
@@ -129,7 +124,7 @@ export default class Documents extends React.Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
           <form>
             <div>
-              Document ID: <input onChange={this.addCollab} type="text"></input>
+              Document ID: <input onChange={this.props.addCollab} type="text"></input>
             </div>
           </form>
           <button onClick={this.updateDocument}>Update</button>

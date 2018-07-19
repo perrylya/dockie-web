@@ -14,6 +14,7 @@ class App extends React.Component {
       currentPage: 'Home',
       userId: '',
       docId: '',
+      collabId:'',
       title: '',
       password: '',
     })
@@ -35,7 +36,6 @@ class App extends React.Component {
       return response.json()
     })
     .then((text) => {
-      console.log(text)
       this.setState({
         userId: text.userId
       })
@@ -68,14 +68,18 @@ class App extends React.Component {
     })
   }
 
+  addCollab = (event) =>{
+    this.setState({collabId: event.target.value})
+  }
+
   redirect(page, docId) {
     if(docId) {
       this.setState({currentPage: page, docId: docId})
     } else {
-    this.setState({
-      currentPage: page
-    })
-  }
+      this.setState({
+        currentPage: page
+      })
+    }
   }
 
   render() {
@@ -95,8 +99,8 @@ class App extends React.Component {
           </Button>
         </div> : null}
         {this.state.currentPage === 'Register' ? <div><RegisterScreen redirect={(e) => this.redirect(e)}/></div> : null}
-        {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} addPassword={(e) => this.addPassword(e)} addTitle={(e) => this.addTitle(e)} onCreate={this.onCreate} redirect={(e) => this.redirect(e)}/> : null}
-        {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} docId ={this.state.docId} redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} collabId={this.state.collabId} addCollab={(e) => this.addCollab(e)} addPassword={(e) => this.addPassword(e)} addTitle={(e) => this.addTitle(e)} onCreate={this.onCreate} redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} docId ={this.state.docId} collabId={this.state.collabId} redirect={(e) => this.redirect(e)}/> : null}
       </div>
     )
   }
