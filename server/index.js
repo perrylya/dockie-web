@@ -84,13 +84,21 @@ io.on('connection', function (socket) {
     })
 
     socket.on('openDocument', (data, next) => {
-        console.log(data)
         socket.join(data.collabId)
-        console.log('socket joined')
         Document.findOne({
           _id: data.collabId,
         }, (err, doc) => next({err, doc}))
       })
+
+
+   socket.on('deleteDocument', (data, next) => {
+     Document.deleteOne({
+       _id: data.docId
+     }, (err, success) => {
+       if (err) return next({err})
+       else if (!err) return next({success})
+     })
+   })
 
   })
 
