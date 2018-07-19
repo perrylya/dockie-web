@@ -52,6 +52,13 @@ hr {
   flex-direction: column;
 }
 
+
+#delete-button{
+  width: 9%;
+  background: red;
+}
+
+
 Button{
   width: 50%;
   flex-direction:row;
@@ -66,7 +73,7 @@ Button{
 }
 
 .Textbox{
-  width: 50%;
+  width: 100%;
   height: auto;
 }
 

@@ -132,20 +132,23 @@ export default class Documents extends React.Component {
         </Modal>
         <div>
           <br/>
-        <Item.Group divided>
-        {this.state.docs.map(doc =>
-            <Item>
-              <Item.Content>
-                <Item.Header as='a'>{doc.title}</Item.Header>
-                <Item.Meta>
-                  <span className='creator'>Creator: {doc.creator}</span>
-                </Item.Meta>
-                <Item.Description>Collaborators: {doc.collabs}</Item.Description>
-              </Item.Content>
-            </Item>)}
-          </Item.Group>
-      </div>
-    </div>
-  )
-}
-}
+          <Item.Group divided>
+            {this.state.docs.map(doc =>
+              <Item>
+                <Item.Content>
+                  <Item.Header as='a'>{doc.title}</Item.Header>
+                  <Item.Meta>
+                    <span className='creator'>Creator: {doc.creator}</span>
+                  </Item.Meta>
+                  <Item.Description>Collaborators: {doc.collabs}</Item.Description>
+                  <Item.Extra>
+                    <Button floated='right' id="delete-button"><Icon name='trash' /></Button>
+                  </Item.Extra>
+                </Item.Content>
+              </Item>)}
+            </Item.Group>
+          </div>
+        </div>
+      )
+    }
+  }
