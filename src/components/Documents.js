@@ -98,6 +98,7 @@ export default class Documents extends React.Component {
       }
       else{
         alert('Your document has deleted!');
+        this.loadDocuments()
       }
     })
   }
