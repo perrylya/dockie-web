@@ -58,28 +58,9 @@ export default class CreateDoc extends React.Component {
     };
   }
 
-<<<<<<< HEAD
-     componentDidMount() {
-       console.log(document)
-       this.props.socket.emit('openDocument', {docId: this.props.docId}, (res) => {
-        if(res.err) return alert('Opps Error')
-        this.setState({
-           document: res.doc,
-         })
-         const content = res.doc.rawState
-         this.setState({
-           editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
-         })
-         this.prop.socket.on('syncDocument',this.remoteStateChange)
-       })
-    }
-
-    remoteStateChange=(res)=> {
-=======
   componentDidMount() {
     console.log(this.props.collabId)
     this.props.socket.emit('openDocument', {collabId: this.props.collabId}, (res) => {
->>>>>>> master
       this.setState({
         document: res.doc,
       })
