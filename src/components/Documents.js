@@ -81,12 +81,21 @@ export default class Documents extends React.Component {
   }
 
   updateDocument = () => {
+<<<<<<< HEAD
     this.props.socket.emit('collaborateDocuments', {userId: this.props.userId, documentId: this.props.title}, (res)=> {
       if(res.err) {
         return alert ('Error')
       }
       else if(res.success){
         this.props.redirect('CreateDoc', this.props.title);
+=======
+    this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.state.title}, (res)=> {
+      if(res.err) {
+        return alert ('Error')
+      }
+      else{
+        this.props.redirect('CreateDoc', this.state.title);
+>>>>>>> master
       }
     })
   }

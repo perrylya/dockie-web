@@ -58,10 +58,8 @@ io.on('connection', function (socket) {
        docs.save((err) => {
          next({err, docs})
        })
-       if(docs) res.send({success:true})
      })
   })
-
 
   socket.on('createDocument', (data, next) => {
     console.log('this is data:'+data);
