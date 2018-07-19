@@ -30,33 +30,6 @@ const counterPlugin = createCounterPlugin();
 const { CharCounter, WordCounter, LineCounter, CustomCounter } = counterPlugin;
 
 
-// class HeadlinesPicker extends React.Component {
-//   componentDidMount() {
-//     setTimeout(() => { window.addEventListener('click', this.onWindowClick); });
-//   }
-//
-//   componentWillUnmount() {
-//     window.removeEventListener('click', this.onWindowClick);
-//   }
-//
-//   onWindowClick(){
-//     // Call `onOverrideContent` again with `undefined`
-//     // so the toolbar can show its regular content again.
-//     this.props.onOverrideContent(undefined)
-//   }
-//
-//   render(){
-//     const buttons = [HeadlineOneButton, HeadlineTwoButton, HeadlineThreeButton];
-//     return (
-//       <div>
-//         {buttons.map((Button, i) => // eslint-disable-next-line
-//           <Button key={i} {...this.props} />
-//         )}
-//       </div>
-//     );
-//   }
-// }
-
 const toolbarPlugin = createToolbarPlugin({
   structure: [
     BoldButton,
@@ -106,12 +79,16 @@ export default class CreateDoc extends React.Component {
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
+    this.setState({editorState})
+    convertToRaw(contentState)
     // this.setState({ editorState }, ()=>{
     //   this.props.socket.emit('syncDocument', {
     //     rawState: convertToRaw(editorState.getCurrentContent())
     //   })
     // });
   };
+
+  
 
 
   focus(){
@@ -126,7 +103,7 @@ export default class CreateDoc extends React.Component {
   render() {
     return (
       <div className='Textbox'>
-        <h2 className='CreateDoc'>Editing Document</h2>
+        <h2 className='CreateDoc'>{this.props.title}</h2>
         <div style={editorStyles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
