@@ -101,12 +101,8 @@ class App extends React.Component {
         </div> : null}
         {this.state.currentPage === 'Register' ? <div><RegisterScreen redirect={(e) => this.redirect(e)}/></div> : null}
         {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} collabId={this.state.collabId} addCollab={(e) => this.addCollab(e)} addPassword={(e) => this.addPassword(e)} addTitle={(e) => this.addTitle(e)} onCreate={this.onCreate} redirect={(e) => this.redirect(e)}/> : null}
-<<<<<<< HEAD
         {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} docId ={this.state.docId} collabId={this.state.collabId} redirect={(e) => this.redirect(e)}/> : null}
         {this.state.currentPage === 'RevisionHistory' ? <RevisionHistory redirect={this.redirect}/> : null}
-=======
-        {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} title={this.state.title} docId ={this.state.docId} collabId={this.state.collabId} redirect={(e) => this.redirect(e)}/> : null}
->>>>>>> sisi
       </div>
     )
   }
