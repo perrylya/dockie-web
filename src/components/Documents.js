@@ -97,7 +97,7 @@ export default class Documents extends React.Component {
         return alert (res.err)
       }
       else{
-        alert('Your document has been deleted!');
+        alert('Your document has deleted!');
       }
     })
   }
