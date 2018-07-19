@@ -35,7 +35,6 @@ class App extends React.Component {
       return response.json()
     })
     .then((text) => {
-      console.log(text)
       this.setState({
         userId: text.userId
       })
