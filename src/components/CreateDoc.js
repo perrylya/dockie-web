@@ -30,33 +30,6 @@ const counterPlugin = createCounterPlugin();
 const { CharCounter, WordCounter, LineCounter, CustomCounter } = counterPlugin;
 
 
-// class HeadlinesPicker extends React.Component {
-//   componentDidMount() {
-//     setTimeout(() => { window.addEventListener('click', this.onWindowClick); });
-//   }
-//
-//   componentWillUnmount() {
-//     window.removeEventListener('click', this.onWindowClick);
-//   }
-//
-//   onWindowClick(){
-//     // Call `onOverrideContent` again with `undefined`
-//     // so the toolbar can show its regular content again.
-//     this.props.onOverrideContent(undefined)
-//   }
-//
-//   render(){
-//     const buttons = [HeadlineOneButton, HeadlineTwoButton, HeadlineThreeButton];
-//     return (
-//       <div>
-//         {buttons.map((Button, i) => // eslint-disable-next-line
-//           <Button key={i} {...this.props} />
-//         )}
-//       </div>
-//     );
-//   }
-// }
-
 const toolbarPlugin = createToolbarPlugin({
   structure: [
     BoldButton,
@@ -106,12 +79,26 @@ export default class CreateDoc extends React.Component {
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
+    this.setState({editorState})
+    convertToRaw(contentState)
     // this.setState({ editorState }, ()=>{
     //   this.props.socket.emit('syncDocument', {
     //     rawState: convertToRaw(editorState.getCurrentContent())
     //   })
     // });
   };
+
+  // onSave = () => {
+  //   this.props.socket.emit('saveDocument', {
+  //     docId: options.docId,
+  //     rawState: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
+  //   }, (res) => {
+  //     if(res.err) return alert('Opps Error')
+  //   })
+  // }
+
+
+  onExit = () => this.props.redirect('Documents')
 
 
   focus(){
@@ -142,6 +129,8 @@ export default class CreateDoc extends React.Component {
 
         </div>
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
+        <button onClick={this.onSave}>save</button>
+        <button onClick={this.onExit}>exit</button>
 
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>
