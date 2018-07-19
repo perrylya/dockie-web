@@ -92,6 +92,16 @@ io.on('connection', function (socket) {
         }, (err, doc) => next({err, doc}))
       })
 
+
+   socket.on('deleteDocument', (data, next) => {
+     Document.deleteOne({
+       _id: data.docId
+     }, (err, success) => {
+       if (err) return next({err})
+       else if (!err) return next({success})
+     })
+   })
+
   })
 
   //All other server route endpoints
