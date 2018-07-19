@@ -59,12 +59,14 @@ export default class CreateDoc extends React.Component {
       }
 
      componentDidMount() {
-       this.props.socket.emit('openDocument', {docId: document.docId}, (res) => {
+       console.log(document)
+       this.props.socket.emit('openDocument', {docId: this.props.docId}, (res) => {
          this.setState({
            document: res.doc,
          })
-         res.doc.rawState && this.setState({
-           editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))
+         const content = res.doc.rawState
+         this.setState({
+           editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
          })
          this.prop.socket.on('syncDocument',this.remoteStateChange)
        })
@@ -75,7 +77,14 @@ export default class CreateDoc extends React.Component {
         editorState: EditorState.createWithContent(convertFromRaw(res.rawState))
       })
     }
-
+   
+    // componentWillUnmount() {
+    //   socket.off('syncDocument', this.remoteStateChange)
+    //   socket.emit('closeDocument', {docId: options.docId}, (res) => {
+    //     if(res.err) return alert('Opps Error')
+    //     this.setState({ docs: res.docs })
+    //   })
+    // }
 
   onChange(editorState){
     const contentState = editorState.getCurrentContent()
@@ -104,9 +113,7 @@ export default class CreateDoc extends React.Component {
     })
   }
 
-
   onExit = () => this.props.redirect('Documents')
-
 
   focus(){
     this.editor.focus();
