@@ -91,6 +91,10 @@ export default class Documents extends React.Component {
     })
   }
 
+  link = (id) => {
+      this.props.redirect('CreateDoc', id);
+  }
+
   deleteDocument = (docId) =>{
     this.props.socket.emit('deleteDocument', {docId: docId}, (res) =>{
       if (res.err) {
@@ -148,7 +152,7 @@ export default class Documents extends React.Component {
             {this.state.docs.map(doc =>
               <Item>
                 <Item.Content>
-                  <Item.Header as='a'>{doc.title}</Item.Header>
+                  <Item.Header as='a' onClick={() => this.link(this.props.collabId)}>{doc.title}</Item.Header>
                   <Item.Meta>
                     <span className='creator'>Creator: {doc.creator}</span>
                   </Item.Meta>
