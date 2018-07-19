@@ -74,6 +74,7 @@ io.on('connection', function (socket) {
     })
 
     socket.on('saveDocument', (data, next) => {
+      console.log(data.docId)
       Document.findOne({
         _id: data.docId,
       }, (err, doc) => {
