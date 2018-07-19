@@ -73,33 +73,37 @@ io.on('connection', function (socket) {
       next({err, doc})})
     })
 
-    socket.on('saveDocument', (data, next) => {
-      console.log(data.docId)
-      Document.findOne({
-        _id: data.docId,
-      }, (err, doc) => {
-        if(err) return next({err})
-        doc.rawState = data.rawState
-        doc.save((err) => next({err}))
-      })
+  socket.on('saveDocument', (data, next) => {
+    console.log(data.docId)
+    Document.findOne({
+      _id: data.docId,
+    }, (err, doc) => {
+      if(err) return next({err})
+      doc.rawState = data.rawState
+      doc.save((err) => next({err}))
     })
+  })
 
-    socket.on('openDocument', (data, next) => {
-        socket.join(data.collabId)
-        Document.findOne({
-          _id: data.collabId,
-        }, (err, doc) => next({err, doc}))
-      })
+  socket.on('openDocument', (data, next) => {
+    socket.join(data.collabId)
+    Document.findOne({
+      _id: data.collabId,
+    }, (err, doc) => next({err, doc}))
+  })
+
+  socket.on('syncDocument', (data, next) => {
+    socket.to(data.docId).emit('syncDocument', data)
+  })
 
 
-   socket.on('deleteDocument', (data, next) => {
-     Document.deleteOne({
-       _id: data.docId
-     }, (err, success) => {
-       if (err) return next({err})
-       else if (!err) return next({success})
-     })
+ socket.on('deleteDocument', (data, next) => {
+   Document.deleteOne({
+     _id: data.docId
+   }, (err, success) => {
+     if (err) return next({err})
+     else if (!err) return next({success})
    })
+ })
 
   })
 
