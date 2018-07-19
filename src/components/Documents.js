@@ -104,17 +104,16 @@ export default class Documents extends React.Component {
     this.props.redirect('CreateDoc')
   }
 
-  addModal = () => {
-    var newDocs = this.state.existingDocs.slice()
-    var newObj = {};
-
-    newObj.documentId = this.state.docId
-    newDocs.push(newObj)
-
-    this.setState({
-      modalIsOpen: false,
-      existingDocs: newDocs
+  updateDocument = () => {
+    this.props.socket.emit('collaborateDocuments', {userId: this.props.userId, documentId: this.state.title}, (res)=> {
+      if(res.err) {
+        return alert ('Error')
+      }
+      else if(res.success){
+        this.props.redirect('CreateDoc', this.state.title);
+      }
     })
+
   }
 
   closeNewDocModal() {
@@ -150,10 +149,10 @@ export default class Documents extends React.Component {
           <h2 ref={subtitle => this.subtitle = subtitle}>Add Doc By ID</h2>
           <form>
             <div>
-              Document ID: <input onChange={(event) => this.addTitle(event)} value={this.state.docId} type="text"></input>
+              Document ID: <input onChange={(event) => this.addTitle(event)} type="text"></input>
             </div>
           </form>
-          <button onClick={this.addModal}>Update</button>
+          <button onClick={this.updateDocument}>Update</button>
           <button onClick={this.closeModal}>Cancel</button>
         </Modal>
         <div>
