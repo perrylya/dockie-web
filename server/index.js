@@ -76,6 +76,16 @@ io.on('connection', function (socket) {
       next({err, doc})})
   })
 
+  socket.on('saveDocument', (data, next) => {
+   Document.findOneAndUpdate({
+     _id: data.docId,
+   }, (err, doc) => {
+     if(err) return next({err})
+     doc.rawState = data.rawState
+     doc.save((err) => next({err}))
+   })
+ })
+
 
 })
 
