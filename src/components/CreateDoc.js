@@ -61,7 +61,7 @@ export default class CreateDoc extends React.Component {
      componentDidMount() {
        this.props.socket.emit('openDocument', {docId: document.docId}, (res) => {
          this.setState({
-           document: res.doc
+           document: res.doc,
          })
          res.doc.rawState && this.setState({
            editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))
@@ -78,9 +78,10 @@ export default class CreateDoc extends React.Component {
 
 
   onChange(editorState){
-    const contentState = editorState.getCurrentContent()
-    this.setState({editorState})
-    convertToRaw(contentState)
+    // const contentState = editorState.getCurrentContent()
+    // this.setState({editorState})
+    // convertToRaw(contentState)
+
     // this.setState({ editorState }, ()=>{
     //   this.props.socket.emit('syncDocument', {
     //     rawState: convertToRaw(editorState.getCurrentContent())
@@ -88,14 +89,14 @@ export default class CreateDoc extends React.Component {
     // });
   };
 
-  // onSave = () => {
-  //   this.props.socket.emit('saveDocument', {
-  //     docId: options.docId,
-  //     rawState: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
-  //   }, (res) => {
-  //     if(res.err) return alert('Opps Error')
-  //   })
-  // }
+  onSave = () => {
+    this.props.socket.emit('saveDocument', {
+      docId: this.props.docId,
+      rawState: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
+    }, (res) => {
+      if(res.err) return alert('Opps Error')
+    })
+  }
 
 
   onExit = () => this.props.redirect('Documents')
@@ -129,8 +130,8 @@ export default class CreateDoc extends React.Component {
 
         </div>
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
-        <button onClick={this.onSave}>save</button>
-        <button onClick={this.onExit}>exit</button>
+        <button onClick={this.onSave}>Save</button>
+        <button onClick={this.onExit}>Document List</button>
 
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>
