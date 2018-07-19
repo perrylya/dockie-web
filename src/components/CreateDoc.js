@@ -29,7 +29,49 @@ const { UndoButton, RedoButton } = undoPlugin;
 const counterPlugin = createCounterPlugin();
 const { CharCounter, WordCounter, LineCounter, CustomCounter } = counterPlugin;
 
+class HeadlinesPicker extends React.Component {
+  componentDidMount() {
+    setTimeout(() => { window.addEventListener('click', this.onWindowClick); });
+  }
 
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onWindowClick);
+  }
+
+  onWindowClick = () =>
+    // Call `onOverrideContent` again with `undefined`
+    // so the toolbar can show its regular content again.
+    this.props.onOverrideContent(undefined);
+
+  render() {
+    const buttons = [HeadlineOneButton, HeadlineTwoButton, HeadlineThreeButton];
+    return (
+      <div>
+        {buttons.map((Button, i) => // eslint-disable-next-line
+          <Button key={i} {...this.props} />
+        )}
+      </div>
+    );
+  }
+}
+
+class HeadlinesButton extends React.Component {
+  onClick = () =>
+    // A button can call `onOverrideContent` to replace the content
+    // of the toolbar. This can be useful for displaying sub
+    // menus or requesting additional information from the user.
+    this.props.onOverrideContent(HeadlinesPicker);
+
+  render() {
+    return (
+      <div className={editorStyles.headlineButtonWrapper}>
+        <button onClick={this.onClick} className={editorStyles.headlineButton}>
+          H
+        </button>
+      </div>
+    );
+  }
+}
 const toolbarPlugin = createToolbarPlugin({
   structure: [
     BoldButton,
@@ -37,6 +79,7 @@ const toolbarPlugin = createToolbarPlugin({
     UnderlineButton,
     CodeButton,
     Separator,
+    HeadlinesButton,
     UnorderedListButton,
     OrderedListButton,
     BlockquoteButton,
@@ -127,7 +170,10 @@ export default class CreateDoc extends React.Component {
   render() {
     return (
       <div className='Textbox'>
-        <h2 className='CreateDoc'>Editing Document</h2>
+        <h2 className='CreateDoc'>{this.props.title}</h2>
+          <div style={editorStyles.button}>
+
+          </div>
         <div style={editorStyles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
@@ -135,11 +181,11 @@ export default class CreateDoc extends React.Component {
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
           />
-          <div style={editorStyles.toolbar}>
-            <Toolbar/>
+             <Toolbar/>
+            <div>
             <UndoButton />
             <RedoButton />
-          </div>
+            </div>
 
         </div>
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
@@ -160,6 +206,7 @@ export default class CreateDoc extends React.Component {
     );
   }
 }
+
 
 const editorStyles={
   editor:{
@@ -188,8 +235,30 @@ const editorStyles={
     width: "36px",
   },
   headlineButton:"hover",
-  toolbar:{
-
+  // toolbar :{
+  //   border: "1px solid #111",
+  //   background: "#333",
+  //   borderRadius: "4px",
+  //   boxShadow: "0px 1px 3px 0px rgba(220,220,220,1)",
+  //   zIndex: "2",
+  //   boxSizing: "border-box"
+  // },
+  buttonWrapper:{
+    display: "inline-block"
+  },
+  button:{
+    fontSize: "18px",
+    border: "0",
+    paddingTop: "5px",
+    verticalAlign: "bottom",
+    height: "34px",
+    width: "30%",
+    borderRadius: "4px",
+    display:"block",
+    flexDirection:"row"
+  },
+  active :{
+    color: "#6a9cc9"
   }
 
 }
