@@ -89,6 +89,27 @@ io.on('connection', function (socket) {
    })
  })
 
+ // socket.on('deleteDocument', (data, next) => {
+ //   Document.deleteOne({
+ //     _id: data.docId
+ //   }, (err, success) => {
+ //     if (err) return next({err})
+ //     else if (!err) return next({success})
+ //   })
+ // })
+
+ var data = {docId: '5b50cdfde173c111de3a3d65'}
+
+ socket.on('deleteDocument', (data, next) => {
+   console.log(data)
+   Document.deleteOne({
+     _id: data.docId
+   }, (err, success) => {
+     if (err) return next({err})
+     else if (!err) return next({success})
+   })
+ })
+
 
 })
 
