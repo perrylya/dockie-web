@@ -4,6 +4,7 @@ import CreateDoc from './CreateDoc.js';
 import LoginScreen from './Login';
 import RegisterScreen from './Register'
 import {Button, Icon} from 'semantic-ui-react';
+import RevisionHistory from './RevisionHistory.js'
 import io from 'socket.io-client'
 
 class App extends React.Component {
@@ -101,6 +102,7 @@ class App extends React.Component {
         {this.state.currentPage === 'Register' ? <div><RegisterScreen redirect={(e) => this.redirect(e)}/></div> : null}
         {this.state.currentPage === 'Documents' ? <Documents socket={this.socket} userId={this.state.userId} collabId={this.state.collabId} addCollab={(e) => this.addCollab(e)} addPassword={(e) => this.addPassword(e)} addTitle={(e) => this.addTitle(e)} onCreate={this.onCreate} redirect={(e) => this.redirect(e)}/> : null}
         {this.state.currentPage === 'CreateDoc' ? <CreateDoc socket={this.socket} docId ={this.state.docId} collabId={this.state.collabId} redirect={(e) => this.redirect(e)}/> : null}
+        {this.state.currentPage === 'RevisionHistory' ? <RevisionHistory redirect={this.redirect}/> : null}
       </div>
     )
   }

@@ -52,7 +52,7 @@ export default class CreateDoc extends React.Component {
     super(props)
     this.state = {
       document: null,
-      editorState: EditorState.createEmpty()
+      editorState: EditorState.createEmpty(),
       // creatorId: this.props.user._id ,
 
     };
@@ -114,6 +114,8 @@ export default class CreateDoc extends React.Component {
 
   onExit = () => this.props.redirect('Documents')
 
+  onRevision = () => this.props.redirect('RevisionHistory')
+
   focus(){
     this.editor.focus();
   };
@@ -144,6 +146,7 @@ export default class CreateDoc extends React.Component {
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
         <button onClick={this.onSave}>Save</button>
         <button onClick={this.onExit}>Document List</button>
+        <button onClick={this.onRevision}>Revision History</button>
 
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>

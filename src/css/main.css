@@ -91,3 +91,9 @@ Button{
   font-size: 28;
   font-weight:bold;
 }
+
+.RevisionDates{
+  font-size: 45;
+  justify-content: flex-end;
+  color: red;
+}
