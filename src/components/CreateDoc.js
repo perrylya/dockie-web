@@ -163,7 +163,7 @@ export default class CreateDoc extends React.Component {
 const editorStyles={
   editor:{
     boxSizing: "border-box",
-    width:"130%",
+    width:"100%",
     border: "1px solid #ddd",
     cursor: "text",
     padding: "16px",
