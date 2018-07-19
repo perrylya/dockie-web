@@ -50,18 +50,17 @@ io.on('connection', function (socket) {
   })
 
   socket.on('collaborateDocument', (data, next) => {
-     Document.findOne({
-       _id: data.docId,
-     }, (err, docs) => {
-       if(err) return next({err, docs})
-       docs.collabs.push(data.userId)
-       docs.save((err) => {
-         next({err, docs})
-       })
-       if(docs) res.send({success:true})
-     })
+    Document.findOne({
+      _id: data.docId,
+    }, (err, docs) => {
+      if(err) return next({err, docs})
+      docs.collabs.push(data.userId)
+      docs.save((err) => {
+        next({err, docs})
+      })
+      if(docs) data.send({success:true})
+    })
   })
-
 
   socket.on('createDocument', (data, next) => {
     console.log('this is data:'+data);
