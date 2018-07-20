@@ -81,11 +81,12 @@ export default class Documents extends React.Component {
   }
 
   updateDocument = () => {
+    console.log(this.props.userId, this.props.collabId)
     this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.props.collabId}, (res)=> {
+      console.log(res)
       if(res.err) {
         return alert ('Error')
-      }
-      else{
+      }else{
         this.props.redirect('CreateDoc', this.props.collabId);
       }
     })

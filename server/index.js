@@ -54,10 +54,8 @@ io.on('connection', function (socket) {
       _id: data.docId,
     }, (err, docs) => {
       if(err) return next({err, docs})
-      docs.collabs.push(data.userId)
-      docs.save((err) => {
-        next({err, docs})
-      })
+      if (docs.collabs.indexOf(data.userId) === -1) {docs.collabs.push(data.userId)}
+      docs.save((err) => {next({err, docs})})
     })
   })
 
@@ -71,12 +69,10 @@ io.on('connection', function (socket) {
     })
     .save((err, doc) => {
       next({err, doc})
-      })
     })
-
+  })
 
   socket.on('saveDocument', (data, next) => {
-    console.log(data.docId)
     Document.findOne({
       _id: data.docId,
     }, (err, doc) => {
@@ -100,18 +96,18 @@ io.on('connection', function (socket) {
   })
 
 
- socket.on('deleteDocument', (data, next) => {
-   Document.deleteOne({
-     _id: data.docId
-   }, (err, success) => {
-     if (err) return next({err})
-     else if (!err) return next({success})
-   })
- })
-
+  socket.on('deleteDocument', (data, next) => {
+    Document.deleteOne({
+      _id: data.docId
+    }, (err, success) => {
+      if (err) return next({err})
+      else if (!err) return next({success})
+    })
   })
 
-  //All other server route endpoints
-  app.use('/', routes(passport));
+})
 
-  server.listen(process.env.PORT || 8888)
+//All other server route endpoints
+app.use('/', routes(passport));
+
+server.listen(process.env.PORT || 8888)
