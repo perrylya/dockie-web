@@ -16,13 +16,11 @@ module.exports = function(passport) {
   }
 
   router.post('/signup', function(req, res) {
-    console.log(req.body.password, req.body.passwordRepeat)
     if (!validateReq(req.body)) {
       return res.send('incomplete')
     } else if(!validatePassword(req.body)) {
       return res.send('passwords')
     } else {
-      console.log(req.body.email)
       User.findOne({
         email: req.body.email
       }, (err, user) => {
