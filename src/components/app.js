@@ -40,10 +40,13 @@ class App extends React.Component {
       this.setState({
         userId: text.userId
       })
-      text.success ? this.redirect('Documents') : alert('invalid login')
+      text.success ?
+      this.redirect('Documents')
+      :
+      alert('Invalid Login')
     })
     .catch((error) => {
-      alert(error)
+      alert('Invalid Login')
     })
   }
 

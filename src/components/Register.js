@@ -8,8 +8,7 @@ class RegisterScreen extends Component {
       name: '',
       password: '',
       email:'',
-      passwordRepeat:'',
-      isRegistered: false
+      passwordRepeat:''
     }
   }
 
@@ -52,8 +51,16 @@ class RegisterScreen extends Component {
     })
     .then((response) => response.text())
     .then((text) => {
-      this.setState({isRegistered: text})
-      this.props.redirect('Documents')
+      if(text === 'incomplete') {
+        alert('Please fill in all fields.')
+      } else if(text === 'passwords') {
+        alert('Passwords must match.')
+      } else if(text === 'exists') {
+        alert('Account already exists. Please log in.')
+        this.props.redirect('Home')
+      } else {
+        this.props.redirect('Home')
+      }
     })
     .catch((error) => {
       console.log(error);
