@@ -101,15 +101,16 @@ export default class CreateDoc extends React.Component {
   }
 
   componentDidMount() {
+    var self = this
     console.log(this.props.collabId)
     this.props.socket.emit('openDocument', {collabId: this.props.collabId}, (res) => {
-      this.setState({
+      self.setState({
         document: res.doc,
       })
-      this.setState({
+      self.setState({
         editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))
       })
-     
+
     })
   }
 
@@ -130,17 +131,28 @@ export default class CreateDoc extends React.Component {
   onChange(editorState){
     // const contentState = editorState.getCurrentContent()
     // convertToRaw(contentState)
+    var self = this;
+    this.props.socket.emit('syncDocument', {
+      rawState: convertToRaw(editorState.getCurrentContent()),
+      docId: self.state.docId
+    })
 
-    this.setState({ editorState }, ()=>{
-      this.props.socket.emit('syncDocument', {
-        rawState: convertToRaw(editorState.getCurrentContent())
+    this.props.socket.on('syncDocument', (data) => {
+      console.log(data)
+      console.log(EditorState.createWithContent(convertFromRaw(JSON.parse(data))));
+      self.setState({
+        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(data)))
       })
+      console.log(this.state.editorState)
+    })
+        //
+    // this.setState({ editorState }, ()=>{
+    //   this.props.socket.on('syncDocument', {
+    //     rawState: convertToRaw(editorState.getCurrentContent())
+    //   })
+    // });
+  }
 
-      this.props.socket.on('syncDocument', {
-        rawState:(convertFromRaw(JSON.parse(data)))
-      })
-    });
-  };
 
   onSave = () => {
     this.props.socket.emit('saveDocument', {
@@ -160,9 +172,9 @@ export default class CreateDoc extends React.Component {
 
   onRevision = () => this.props.redirect('RevisionHistory')
 
-  focus(){
-    this.editor.focus();
-  };
+  // focus(){
+  //   this.editor.focus();
+  // };
 
   customCountFunction(str) {
     const wordArray = str.match(/\S+/g);  // matches words according to whitespace
