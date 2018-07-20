@@ -48,7 +48,6 @@ io.on('connection', function (socket) {
     .find({collabs: {$in: data.userId}})
     .populate('collabs')
     .exec(function(err, docs) {
-      console.log(docs)
       next({err, docs})
     })
   })
