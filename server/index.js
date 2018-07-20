@@ -93,13 +93,7 @@ io.on('connection', function (socket) {
   })
 
   socket.on('syncDocument', (data, next) => {
-<<<<<<< HEAD
-    console.log(data)
-    console.log('hi');
-    socket.to(data.docId).emit('syncDocument', data)
-=======
     io.to(data.docId).emit('syncDocument', data.rawState)
->>>>>>> perry
   })
 
 
