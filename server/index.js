@@ -53,13 +53,9 @@ io.on('connection', function (socket) {
     Document.findOne({
       _id: data.docId,
     }, (err, docs) => {
-      if(err) {return next({err, docs})}
-      if(docs.collabs.indexOf(data.userId) === -1) {
-      docs.collabs.push(data.userId)
-      docs.save((err) => {
-        next({err, docs})
-      })
-    }
+      if(err) return next({err, docs})
+      if (docs.collabs.indexOf(data.userId) === -1) {docs.collabs.push(data.userId)}
+        docs.save((err) => {next({err, docs})})
     })
   })
 
@@ -99,6 +95,7 @@ io.on('connection', function (socket) {
     })
   })
 
+<<<<<<< HEAD
   socket.on('openDocument', (data, next) => {
     socket.join(data.collabId)
     Document.findOne({
@@ -119,6 +116,24 @@ io.on('connection', function (socket) {
      else if (!err) return next({success})
    })
  })
+=======
+    socket.on('openDocument', (data, next) => {
+      socket.join(data.collabId)
+      Document.findOne({
+        _id: data.collabId,
+      }, (err, doc) => next({err, doc}))
+    })
+
+
+    socket.on('deleteDocument', (data, next) => {
+      Document.deleteOne({
+        _id: data.docId
+      }, (err, success) => {
+        if (err) return next({err})
+        else if (!err) return next({success})
+      })
+    })
+>>>>>>> perry
 
   })
 
