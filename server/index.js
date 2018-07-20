@@ -44,9 +44,13 @@ app.use(passport.session());
 io.on('connection', function (socket) {
 
   socket.on('getDocuments', (data, next) => {
-    Document.find({
-      collabs: {$in: data.userId}
-    }, (err, docs) => next({err, docs}))
+    Document
+    .find({collabs: {$in: data.userId}})
+    .populate('collabs')
+    .exec(function(err, docs) {
+      console.log(docs)
+      next({err, docs})
+    })
   })
 
   socket.on('collaborateDocument', (data, next) => {
@@ -90,8 +94,6 @@ io.on('connection', function (socket) {
   })
 
   socket.on('syncDocument', (data, next) => {
-    console.log(data)
-    console.log('hi');
     io.to(data.docId).emit('syncDocument', data.rawState)
   })
 
