@@ -20,6 +20,7 @@ import {
 } from 'draft-js-buttons';
 import createUndoPlugin from 'draft-js-undo-plugin';
 
+
 // Creates an Instance. At this step, a configuration object can be passed in
 // as an argument.
 const undoPlugin = createUndoPlugin();
@@ -96,66 +97,63 @@ export default class CreateDoc extends React.Component {
     this.state = {
       document: null,
       editorState: EditorState.createEmpty(),
-      docId: this.props.collabId
+      docId: this.props.docId
     };
   }
 
+
   componentDidMount() {
     var self = this
-    console.log(this.props.collabId)
-    this.props.socket.emit('openDocument', {collabId: this.props.collabId}, (res) => {
+    console.log("componentdidmount",this.props)
+    this.props.socket.emit('openDocument', {docId: this.props.docId}, (res) => {
+      console.log('opendocument')
       self.setState({
         document: res.doc,
       })
-      self.setState({
-        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))
-      })
+      res.doc.rawState && self.setState({editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))})
 
-    })
-  }
-
-  remoteStateChange=(res)=> {
-    this.setState({
-      editorState: EditorState.createWithContent(convertFromRaw(res.rawState))
-    })
-  }
-
-  // componentWillUnmount() {
-  //   socket.off('syncDocument', this.remoteStateChange)
-  //   socket.emit('closeDocument', {docId: options.docId}, (res) => {
-  //     if(res.err) return alert('Opps Error')
-  //     this.setState({ docs: res.docs })
-  //   })
-  // }
-
-  onChange(editorState){
-    // const contentState = editorState.getCurrentContent()
-    // convertToRaw(contentState)
-    var self = this;
-    this.props.socket.emit('syncDocument', {
-      rawState: convertToRaw(editorState.getCurrentContent()),
-      docId: self.state.docId
     })
 
     this.props.socket.on('syncDocument', (data) => {
-      console.log(data)
-      console.log(EditorState.createWithContent(convertFromRaw(data)));
+      console.log("sync doc", data)
       self.setState({
-        editorState: EditorState.createWithContent(convertFromRaw(data))
+        editorState: EditorState.createWithContent(convertFromRaw(data.rawState))
       })
     })
-        //
-    // this.setState({ editorState }, ()=>{
-    //   this.props.socket.on('syncDocument', {
-    //     rawState: convertToRaw(editorState.getCurrentContent())
-    //   })
-    // });
+
   }
 
+  // componentWillUnmount() {
+  //   socket.off('syncDocument', (data)=>{
+  //     console.log(data)
+  //     this.setState({
+  //       editorState: EditorState.createWithContent(convertFromRaw(data.rawState))
+  //     })
+  //   })
+  //   // socket.emit('closeDocument', {docId: options.docId}, (res) => {
+  //   //   if(res.err) return alert('Opps Error')
+  //   //   this.setState({ docs: res.docs })
+  //   // })
+  // }
+
+  onChange=(editorState)=>{
+    // const contentState = editorState.getCurrentContent()
+    // convertToRaw(contentState)
+    this.props.socket.emit('syncDocument', {
+      rawState: convertToRaw(editorState.getCurrentContent()),
+      docId: this.props.docId
+    })
+    console.log('onChange')
+    this.setState({editorState}, ()=> {
+   
+    })
+  }
+    
 
   onSave = () => {
+    console.log(save)
     this.props.socket.emit('saveDocument', {
-      docId: this.state.docId,
+      docId: this.props.docId,
       rawState: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
     }, (res) => {
       if(res.err) {
@@ -181,6 +179,7 @@ export default class CreateDoc extends React.Component {
   }
 
   render() {
+    console.log("render")
     return (
       <div className='Textbox'>
         <h2 className='CreateDoc'>{this.props.title}</h2>
@@ -190,7 +189,7 @@ export default class CreateDoc extends React.Component {
         <div style={editorStyles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
-            onChange={this.onChange.bind(this)}
+            onChange={this.onChange}
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
           />
