@@ -90,9 +90,9 @@ io.on('connection', function (socket) {
   })
 
   socket.on('syncDocument', (data, next) => {
-    console.log(data)
+    console.log(data.rawState.blocks)
     console.log('hi');
-    io.to(data.docId).emit('syncDocument', data.rawState)
+    io.to(data.docId).emit('syncDocument', data)
   })
 
 

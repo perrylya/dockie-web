@@ -112,46 +112,47 @@ export default class CreateDoc extends React.Component {
       })
 
     })
-  }
-
-  remoteStateChange=(res)=> {
-    this.setState({
-      editorState: EditorState.createWithContent(convertFromRaw(res.rawState))
-    })
-  }
-
-  // componentWillUnmount() {
-  //   socket.off('syncDocument', this.remoteStateChange)
-  //   socket.emit('closeDocument', {docId: options.docId}, (res) => {
-  //     if(res.err) return alert('Opps Error')
-  //     this.setState({ docs: res.docs })
-  //   })
-  // }
-
-  onChange(editorState){
-    // const contentState = editorState.getCurrentContent()
-    // convertToRaw(contentState)
-    var self = this;
-    this.props.socket.emit('syncDocument', {
-      rawState: convertToRaw(editorState.getCurrentContent()),
-      docId: self.state.docId
-    })
-
     this.props.socket.on('syncDocument', (data) => {
       console.log(data)
-      console.log(EditorState.createWithContent(convertFromRaw(data)));
-      self.setState({
-        editorState: EditorState.createWithContent(convertFromRaw(data))
+      this.setState({
+        editorState: EditorState.createWithContent(convertFromRaw(data.rawState))
       })
     })
-        //
-    // this.setState({ editorState }, ()=>{
-    //   this.props.socket.on('syncDocument', {
-    //     rawState: convertToRaw(editorState.getCurrentContent())
-    //   })
-    // });
   }
 
+  componentWillUnmount() {
+    socket.off('syncDocument', (data)=>{
+      console.log(data)
+      this.setState({
+        editorState: EditorState.createWithContent(convertFromRaw(data.rawState))
+      })
+    })
+    // socket.emit('closeDocument', {docId: options.docId}, (res) => {
+    //   if(res.err) return alert('Opps Error')
+    //   this.setState({ docs: res.docs })
+    // })
+  }
+
+  onChange=(editorState)=>{
+    // const contentState = editorState.getCurrentContent()
+    // convertToRaw(contentState)
+
+    if ( JSON.stringify(convertToRaw(editorState.getCurrentContent())) ===
+         JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())))
+    {
+      return;
+    }
+
+
+    console.log('onChange')
+    this.setState({editorState}, ()=> {
+      this.props.socket.emit('syncDocument', {
+        rawState: convertToRaw(editorState.getCurrentContent()),
+        docId: this.state.docId
+      })
+    })
+  }
+    
 
   onSave = () => {
     this.props.socket.emit('saveDocument', {
@@ -190,7 +191,7 @@ export default class CreateDoc extends React.Component {
         <div style={editorStyles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
-            onChange={this.onChange.bind(this)}
+            onChange={this.onChange}
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
           />
