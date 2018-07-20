@@ -105,11 +105,10 @@ export default class CreateDoc extends React.Component {
       this.setState({
         document: res.doc,
       })
-      const content = res.doc.rawState
       this.setState({
-        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
+        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))
       })
-      this.prop.socket.on('syncDocument',this.remoteStateChange)
+     
     })
   }
 
@@ -128,15 +127,18 @@ export default class CreateDoc extends React.Component {
   // }
 
   onChange(editorState){
-    const contentState = editorState.getCurrentContent()
-    this.setState({editorState})
-    convertToRaw(contentState)
+    // const contentState = editorState.getCurrentContent()
+    // convertToRaw(contentState)
 
-    // this.setState({ editorState }, ()=>{
-    //   this.props.socket.emit('syncDocument', {
-    //     rawState: convertToRaw(editorState.getCurrentContent())
-    //   })
-    // });
+    this.setState({ editorState }, ()=>{
+      this.props.socket.emit('syncDocument', {
+        rawState: convertToRaw(editorState.getCurrentContent())
+      })
+
+      this.props.socket.on('syncDocument', {
+        rawState:(convertFromRaw(JSON.parse(data)))
+      })
+    });
   };
 
   onSave = () => {

@@ -104,6 +104,7 @@ io.on('connection', function (socket) {
   })
 
   socket.on('syncDocument', (data, next) => {
+    console.log(data)
     socket.to(data.docId).emit('syncDocument', data)
   })
 
