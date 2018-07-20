@@ -106,6 +106,7 @@ export default class Documents extends React.Component {
   }
 
   link = (id) => {
+    console.log('link',id)
       this.props.redirect('CreateDoc', id);
   }
 
@@ -130,6 +131,7 @@ export default class Documents extends React.Component {
   }
 
   render() {
+    console.log(this.state.docs)
     return(
       <div>
         <h2 className='Documents'>
@@ -166,7 +168,7 @@ export default class Documents extends React.Component {
             {this.state.docs.map(doc =>
               <Item>
                 <Item.Content>
-                  <Item.Header as='a' onClick={() => this.link(this.props.collabId)}>{doc.title}</Item.Header>
+                  <Item.Header as='a' onClick={() => this.link(doc._id)}>{doc.title}</Item.Header>
                   <Item.Meta>
                     <span className='creator'>Creator: {doc.creator}</span>
                   </Item.Meta>

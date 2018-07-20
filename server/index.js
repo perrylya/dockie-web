@@ -83,16 +83,16 @@ io.on('connection', function (socket) {
   })
 
   socket.on('openDocument', (data, next) => {
-    socket.join(data.collabId)
+    socket.join(data.docId)
     Document.findOne({
-      _id: data.collabId,
+      _id: data.docId,
     }, (err, doc) => next({err, doc}))
   })
 
   socket.on('syncDocument', (data, next) => {
-    console.log(data.rawState.blocks)
+    console.log(data)
     console.log('hi');
-    io.to(data.docId).emit('syncDocument', data)
+    socket.to(data.docId).emit('syncDocument', data)
   })
 
 
