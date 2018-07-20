@@ -16,7 +16,6 @@ class LoginScreen extends Component {
     this.props.onLogin(this.state.name, this.state.password)
   }
 
-
   onNameChange = (event) =>{
     this.setState({
       name: event.target.value
@@ -29,8 +28,8 @@ class LoginScreen extends Component {
     })
   }
 
+  render() {
 
-  render(){
     return (
       <div className = "login">
           <div className = "input-container">
@@ -46,8 +45,8 @@ class LoginScreen extends Component {
             </Button>
           </div>
       </div>
-
     );
   }
 }
+
 export default LoginScreen;

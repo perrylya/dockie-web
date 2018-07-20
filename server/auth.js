@@ -16,23 +16,32 @@ module.exports = function(passport) {
   }
 
   router.post('/signup', function(req, res) {
-    console.log(req.body)
+    console.log(req.body.password, req.body.passwordRepeat)
     if (!validateReq(req.body)) {
-      return res.send('err')
+      return res.send('incomplete')
     } else if(!validatePassword(req.body)) {
-      return res.send('err')
+      return res.send('passwords')
     } else {
-      var newUser = new User({
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password
-      })
-      newUser.save(function(err, user) {
-        if (err) {
-          res.send(err);
-          return;
+      console.log(req.body.email)
+      User.findOne({
+        email: req.body.email
+      }, (err, user) => {
+        if(user) {
+          return res.send('exists')
+        } else if (!user) {
+          new User({
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password
+          })
+          .save(function(err, user) {
+            if (err) {
+              res.send(err);
+              return;
+            }
+            res.send(true)
+          })
         }
-        res.send(true)
       })
     };
   });
@@ -45,6 +54,7 @@ module.exports = function(passport) {
     })
   });
 
+  //logout
   router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/login');
