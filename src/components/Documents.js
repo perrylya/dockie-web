@@ -44,8 +44,7 @@ export default class Documents extends React.Component {
     this.props.socket.on('connect', () => this.setState({connecting: null}))
     this.props.socket.on('disconnect', () => this.setState({connecting: true}))
     this.props.socket.emit('getDocuments', {userId: this.props.userId}, (res)=> {
-      console.log(res)
-      if(res.err) return alert('Error')
+      if(res.err) return alert ('Error')
       this.setState({docs: res.docs})
     })
   }
@@ -95,9 +94,7 @@ export default class Documents extends React.Component {
   }
 
   updateDocument = () => {
-    console.log(this.props.userId, this.props.collabId)
     this.props.socket.emit('collaborateDocument', {userId: this.props.userId, docId: this.props.collabId}, (res)=> {
-      console.log(res)
       if(res.err) {
         return alert ('Error')
       }else{
@@ -171,9 +168,9 @@ export default class Documents extends React.Component {
                 <Item.Content>
                   <Item.Header as='a' onClick={() => this.link(doc._id)}>{doc.title}</Item.Header>
                   <Item.Meta>
-                    <span className='creator'>Creator: {doc.collabs[0].username}</span>
+                    <span className='creator'>Creator: <div>{doc.collabs[0].username}</div></span>
                   </Item.Meta>
-                  <Item.Description>Collaborators: {doc[0]}</Item.Description>
+                  <Item.Description>Collaborators: {doc.collabs.map(user => <div>{user.username}</div>)} </Item.Description>
                   <Item.Extra>
                     <Button onClick = {() => this.deleteDocument(doc._id)} floated='right' id="delete-button"><Icon name='trash' /></Button>
                   </Item.Extra>
