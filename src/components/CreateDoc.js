@@ -204,7 +204,7 @@ export default class CreateDoc extends React.Component {
         <button onClick={() => this.props.redirect('Home')}>Go Home!</button>
         <button onClick={this.onSave}>Save</button>
         <button onClick={this.onExit}>Document List</button>
-        <button onClick={this.onRevision}>Revision History</button>
+        {/* <button onClick={this.onRevision}>Revision History</button> */}
 
         <div><CharCounter limit={200} /> characters</div>
         <div><WordCounter limit={30} /> words</div>
