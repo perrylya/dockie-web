@@ -139,11 +139,10 @@ export default class CreateDoc extends React.Component {
 
     this.props.socket.on('syncDocument', (data) => {
       console.log(data)
-      console.log(EditorState.createWithContent(convertFromRaw(JSON.parse(data))));
+      console.log(EditorState.createWithContent(convertFromRaw(data)));
       self.setState({
-        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(data)))
+        editorState: EditorState.createWithContent(convertFromRaw(data))
       })
-      console.log(this.state.editorState)
     })
         //
     // this.setState({ editorState }, ()=>{
