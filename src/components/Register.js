@@ -53,7 +53,7 @@ class RegisterScreen extends Component {
     .then((response) => response.text())
     .then((text) => {
       this.setState({isRegistered: text})
-      this.props.redirect('Documents')
+      this.props.redirect('Home')
     })
     .catch((error) => {
       console.log(error);
