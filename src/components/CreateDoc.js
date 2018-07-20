@@ -106,17 +106,14 @@ export default class CreateDoc extends React.Component {
     this.props.socket.emit('openDocument', {collabId: this.props.collabId}, (res) => {
       self.setState({
         document: res.doc,
-      })
-      self.setState({
         editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(res.doc.rawState)))
       })
-
     })
-  }
 
-  remoteStateChange=(res)=> {
-    this.setState({
-      editorState: EditorState.createWithContent(convertFromRaw(res.rawState))
+    this.props.socket.on('syncDocument', (data) => {
+      self.setState({
+        editorState: EditorState.createWithContent(convertFromRaw(data))
+      })
     })
   }
 
@@ -128,21 +125,13 @@ export default class CreateDoc extends React.Component {
   //   })
   // }
 
-  onChange(editorState){
+  onChange = (editorState) => {
     // const contentState = editorState.getCurrentContent()
     // convertToRaw(contentState)
     var self = this;
     this.props.socket.emit('syncDocument', {
       rawState: convertToRaw(editorState.getCurrentContent()),
       docId: self.state.docId
-    })
-
-    this.props.socket.on('syncDocument', (data) => {
-      console.log(data)
-      console.log(EditorState.createWithContent(convertFromRaw(data)));
-      self.setState({
-        editorState: EditorState.createWithContent(convertFromRaw(data))
-      })
     })
         //
     // this.setState({ editorState }, ()=>{
@@ -190,7 +179,7 @@ export default class CreateDoc extends React.Component {
         <div style={editorStyles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
-            onChange={this.onChange.bind(this)}
+            onChange={this.onChange}
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
           />
