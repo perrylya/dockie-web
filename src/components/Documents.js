@@ -53,6 +53,19 @@ export default class Documents extends React.Component {
     this.loadDocuments()
   }
 
+  onLogout = () => {
+    fetch('http://localhost:8888/logout', {
+      method: 'GET',
+    })
+    .then((response) => response.text())
+    .then((text) => {
+      this.props.redirect('Home')
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
   openNewDocModal() {
     this.setState({modal2IsOpen: true});
   }
@@ -164,6 +177,9 @@ export default class Documents extends React.Component {
                 </Item.Content>
               </Item>)}
             </Item.Group>
+          </div>
+          <div>
+            <button className="Logout" type="submit" onClick={this.onLogout}>Logout</button>
           </div>
         </div>
       )
